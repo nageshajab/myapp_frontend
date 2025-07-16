@@ -28,14 +28,12 @@ const Register: React.FC<RegisterProps> = () => {
   const [generatedOtp, setGeneratedOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setValidationError(null);
     setError(null);
-    setSuccess(null);
 
     if (isformcomplete() === false) return;
 
@@ -57,7 +55,7 @@ const Register: React.FC<RegisterProps> = () => {
     });
 
     try {
-      const response = await api.post("/register", {
+      await api.post("/register", {
         username: userData.username,
         email: userData.email,
         password: userData.password,
@@ -200,8 +198,9 @@ const Register: React.FC<RegisterProps> = () => {
                       type="button"
                       className="btn btn-secondary"
                       onClick={handleSendOtp}
+                      disabled={isOtpSent}
                     >
-                      Send OTP
+                      {isOtpSent ? "OTP Sent" : "Send OTP"}
                     </button>
                   </div>
                 </div>

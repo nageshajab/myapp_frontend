@@ -79,9 +79,17 @@ const Login = () => {
                     }
                   />
                 </div>
-                <button type="submit" className="btn btn-primary w-100">
-                  Login
-                </button>
+                {loading ? (
+                  <div className="text-center my-5">
+                    <div className="spinner-border text-primary" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+                ) : (
+                  <button type="submit" className="btn btn-primary w-100">
+                    Login
+                  </button>
+                )}
                 <button
                   type="button"
                   className="btn btn-secondary w-100 mt-2"
