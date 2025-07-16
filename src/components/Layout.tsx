@@ -31,11 +31,14 @@ const Layout = () => {
             display: "flex",
           }}
         >
-          <li style={{ marginRight: "1rem" }}>
-            <Link to="/changepassword">Change Password</Link>
-          </li>
           <li>
             <Link to="/passwordlist">Password List</Link>
+          </li>
+          <li>
+            <Link to="/datelist">Date List</Link>
+          </li>
+          <li style={{ marginRight: "1rem" }}>
+            <Link to="/changepassword">Change Password</Link>
           </li>
         </ul>
         <div style={{ display: "flex", alignItems: "center" }}>

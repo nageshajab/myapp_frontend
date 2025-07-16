@@ -6,6 +6,8 @@ import Register from "./components/Register";
 import ChangePassword from "./components/ChangePassword";
 import PasswordList from "./components/PasswordList";
 import PasswordForm from "./components/PasswordForm";
+import DateList from "./components/DateList";
+import DateForm from "./components/CreateDateForm";
 import PasswordDetail from "./components/PasswordDetail";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,6 +26,10 @@ const App = () => {
           <Route path="passwordlist/create" element={<PasswordForm />} />
           <Route path="passwordlist/edit/:id" element={<PasswordForm />} />
           <Route path="passwordlist/:id" element={<PasswordDetail />} />
+
+          <Route path="datelist" element={<DateList />} />
+          <Route path="dates/create" element={<DateForm />} />
+          <Route path="dates/edit/:id" element={<DateForm />} />
         </Route>
       </Routes>
       <ToastContainer />
