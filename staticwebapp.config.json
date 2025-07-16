@@ -5,5 +5,9 @@
     ".jsx": "application/javascript",
     ".tsx": "application/javascript",
     ".ts": "application/javascript"
+  },
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/images/*.{png,jpg,gif}", "/css/*"]
   }
 }
