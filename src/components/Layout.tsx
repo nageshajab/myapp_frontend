@@ -32,7 +32,7 @@ const Layout = () => {
           }}
         >
           <li style={{ marginRight: "1rem" }}>
-            <Link to="/home">Home</Link>
+            <Link to="/changepassword">Change Password</Link>
           </li>
           <li>
             <Link to="/passwordlist">Password List</Link>
