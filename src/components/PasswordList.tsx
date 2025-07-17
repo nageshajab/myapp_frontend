@@ -40,7 +40,9 @@ const PasswordList: React.FC = () => {
       "Are you sure you want to delete this password?"
     );
     if (confirmDelete) {
+      setLoading(true);
       await deletePassword(id);
+      setLoading(false);
       fetchPasswords();
     }
   };

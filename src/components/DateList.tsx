@@ -51,7 +51,9 @@ const DateList = () => {
       "Are you sure you want to delete this date?"
     );
     if (confirmDelete) {
+      setLoading(true);
       await deleteDate(id);
+      setLoading(false);
       fetchDates();
     }
   };

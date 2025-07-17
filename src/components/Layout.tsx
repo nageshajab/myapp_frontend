@@ -1,4 +1,6 @@
 import { Link, useNavigate, Outlet } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -13,46 +15,64 @@ const Layout = () => {
 
   return (
     <div>
-      <nav
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "1rem",
-          backgroundColor: "#f0f0f0",
-          borderBottom: "1px solid #ccc",
-        }}
-      >
-        <ul
-          style={{
-            listStyle: "none",
-            margin: 0,
-            padding: 0,
-            display: "flex",
-          }}
-        >
-          <li>
-            <Link to="/passwordlist">Password List</Link>
-          </li>
-          <li>
-            <Link to="/datelist">Date List</Link>
-          </li>
-          <li style={{ marginRight: "1rem" }}>
-            <Link to="/changepassword">Change Password</Link>
-          </li>
-        </ul>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          {token ? (
-            <>
-              <span style={{ marginRight: "1rem" }}>Welcome, {username}!</span>
-              <button onClick={handleLogout}>Logout</button>
-            </>
-          ) : (
-            <Link to="/login">Login</Link>
-          )}
+      <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <div className="container-fluid">
+          <Link className="navbar-brand" to="/">
+            MyApp
+          </Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarContent"
+            aria-controls="navbarContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="navbarContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <Link className="nav-link" to="/passwordlist">
+                  Passwords
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/datelist">
+                  Dates
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/changepassword">
+                  Change Password
+                </Link>
+              </li>
+            </ul>
+
+            <div className="d-flex">
+              {token ? (
+                <>
+                  <span className="navbar-text me-3">Welcome, {username}!</span>
+                  <button
+                    className="btn btn-outline-danger"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <Link className="btn btn-outline-primary" to="/login">
+                  Login
+                </Link>
+              )}
+            </div>
+          </div>
         </div>
       </nav>
-      <main style={{ padding: "2rem" }}>
+
+      <main className="container mt-4">
         <Outlet />
       </main>
     </div>
