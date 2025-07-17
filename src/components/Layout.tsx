@@ -1,6 +1,6 @@
 import { Link, useNavigate, Outlet } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const Layout = () => {
   const navigate = useNavigate();
