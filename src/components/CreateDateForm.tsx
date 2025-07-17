@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { API_URL, subscription_key } from "../../config";
 import { toast } from "react-toastify";
 import { createDate, updateDate, getDate } from "../api/DatesService";
 import { useParams, useNavigate } from "react-router-dom";
@@ -17,7 +16,6 @@ const CreateDateForm = () => {
     userid: localStorage.getItem("token") || "",
   });
   const [loading, setLoading] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -28,7 +26,7 @@ const CreateDateForm = () => {
           setLoading(false);
         })
         .catch((err) => {
-          toast.error("Error fetching date");
+          toast.error("Error fetching date" + err);
           setLoading(false);
         });
     }
@@ -55,7 +53,7 @@ const CreateDateForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitting(true);
+
     try {
       if (id) {
         await updateDate(form);
@@ -68,7 +66,6 @@ const CreateDateForm = () => {
     } catch (err) {
       toast.error("Error submitting form");
     } finally {
-      setSubmitting(false);
     }
   };
 
