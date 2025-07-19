@@ -1,11 +1,26 @@
 import { Link, useNavigate, Outlet } from "react-router-dom";
 // import "bootstrap/dist/css/bootstrap.min.css";
 // import "bootstrap/dist/js/bootstrap.bundle.min.js";
-
+import { useIdleTimer } from "react-idle-timer";
+import { toast } from "react-toastify";
 const Layout = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("username");
+
+  const handleOnIdle = () => {
+    handleLogout();
+    toast.success("User is idle for more than 5 minutes. Logging out!", {
+      position: "top-right",
+      autoClose: 2000,
+    });
+    window.location.href = "/login";
+  };
+
+  const {} = useIdleTimer({
+    timeout: 5 * 60 * 1000, // 5 minutes
+    onIdle: handleOnIdle,
+  });
 
   const handleLogout = () => {
     localStorage.removeItem("token");
