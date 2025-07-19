@@ -45,6 +45,11 @@ const Layout = () => {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link" to="/khatalist">
+                  Khatabook
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link className="nav-link" to="/changepassword">
                   Change Password
                 </Link>

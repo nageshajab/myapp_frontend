@@ -7,8 +7,13 @@ import ChangePassword from "./components/ChangePassword";
 import PasswordList from "./components/PasswordList";
 import PasswordForm from "./components/PasswordForm";
 import DateList from "./components/DateList";
+
 import DateForm from "./components/CreateDateForm";
 import PasswordDetail from "./components/PasswordDetail";
+
+import CreateKhataEntryForm from "./components/CreateKhataEntryForm";
+import KhataList from "./components/KhataList";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -30,6 +35,10 @@ const App = () => {
           <Route path="datelist" element={<DateList />} />
           <Route path="dates/create" element={<DateForm />} />
           <Route path="dates/edit/:id" element={<DateForm />} />
+
+          <Route path="khatalist" element={<KhataList />} />
+          <Route path="khata/create" element={<CreateKhataEntryForm />} />
+          <Route path="khata/edit/:id" element={<CreateKhataEntryForm />} />
         </Route>
       </Routes>
       <ToastContainer />
