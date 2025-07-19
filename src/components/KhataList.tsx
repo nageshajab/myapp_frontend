@@ -8,6 +8,7 @@ interface KhataItem {
   amount: number;
   date: string;
   userid: string;
+  personName: string;
 }
 
 const KhataList = () => {
@@ -89,9 +90,11 @@ const KhataList = () => {
             >
               <div>
                 <h5 className="mb-1">{item.title}</h5>
+                <p className="mb-1">{item.personName}</p>
                 <p className="mb-1">{item.amount}</p>
                 <p className="mb-1">
-                  <strong>Date:</strong> {item.date}
+                  <strong>Date:</strong>{" "}
+                  {new Date(item.date).toLocaleDateString("en-GB")}
                 </p>
               </div>
               <div>
