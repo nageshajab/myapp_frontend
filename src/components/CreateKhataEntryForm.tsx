@@ -14,6 +14,7 @@ const CreateKhataEntryForm = () => {
     title: "",
     amount: 0,
     date: "",
+    personname: "",
     userid: localStorage.getItem("token") || "",
   });
   const [loading, setLoading] = useState(false);
@@ -23,7 +24,8 @@ const CreateKhataEntryForm = () => {
       setLoading(true);
       KhataGet(id)
         .then((res) => {
-          setForm(res.data);
+          const formattedDate = res.data.date.split("T")[0]; // Assuming date is in ISO format
+          setForm({ ...res.data, date: formattedDate });
           setLoading(false);
         })
         .catch((err) => {
@@ -88,6 +90,17 @@ const CreateKhataEntryForm = () => {
           />
         </div>
         <div className="mb-3">
+          <label className="form-label">Person Name</label>
+          <input
+            type="text"
+            name="personname"
+            value={form.personname}
+            onChange={handleChange}
+            className="form-control"
+            required
+          />
+        </div>
+        <div className="mb-3">
           <label className="form-label">Amount</label>
           <input
             type="number"
@@ -123,9 +136,18 @@ const CreateKhataEntryForm = () => {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary w-100">
-          Save
-        </button>
+        <div className="d-flex">
+          <button
+            type="button"
+            className="btn btn-secondary w-50 me-2"
+            onClick={() => navigate("/khatalist")}
+          >
+            Cancel
+          </button>
+          <button type="submit" className="btn btn-primary w-50">
+            Save
+          </button>
+        </div>
       </form>
     </div>
   );
