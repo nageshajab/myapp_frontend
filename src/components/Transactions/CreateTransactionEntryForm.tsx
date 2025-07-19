@@ -76,7 +76,7 @@ const CreateTransactionEntryForm = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="text-center">Create Date</h2>
+      <h2 className="text-center">Create Transaction</h2>
       <form onSubmit={handleSubmit} className="card p-4 shadow-sm">
         <div className="mb-3">
           <label className="form-label">Title</label>
