@@ -16,6 +16,9 @@ const KhataList = () => {
   const [khataentries, setKhataEntries] = useState<KhataItem[]>([]);
   const [searchtxt, setSearchtxt] = useState("");
   const [pageNumber, setPgNo] = useState(1);
+  const [selectedPerson, setSelectedPerson] = useState("");
+  const [distinctPersons, setDistinctPersons] = useState<string[]>([]);
+
   const [pagination, setPagination] = useState({
     pageNumber: 1,
     pageSize: 10,
@@ -29,16 +32,18 @@ const KhataList = () => {
       pageNumber,
       searchtxt,
       userid: localStorage.getItem("token"),
+      personName: selectedPerson,
     });
-
-    setKhataEntries(res.data.khataEntries); // updated to res.data.dates
+    setKhataEntries(res.data.khataEntries);
+    setDistinctPersons(res.data.distinctPersonNames);
     setPagination(res.data.pagination);
+
     setLoading(false);
   };
 
   useEffect(() => {
     fetchKhataEntries();
-  }, [pageNumber, searchtxt]);
+  }, [pageNumber, searchtxt, selectedPerson]);
 
   const handlePageChange = (newPageNumber: number) => {
     setPgNo(newPageNumber);
@@ -60,7 +65,7 @@ const KhataList = () => {
     <div className="container mt-4">
       <h2 className="mb-3">Saved khata entries</h2>
       <div className="row mb-3">
-        <div className="col-md-8">
+        <div className="col-md-4">
           <input
             type="text"
             className="form-control"
@@ -70,11 +75,26 @@ const KhataList = () => {
           />
         </div>
         <div className="col-md-4">
+          <select
+            className="form-select"
+            value={selectedPerson}
+            onChange={(e) => setSelectedPerson(e.target.value)}
+          >
+            <option value="">Select Person</option>
+            {distinctPersons.map((person) => (
+              <option key={person} value={person}>
+                {person}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-md-4">
           <Link to="/khata/create">
             <button className="btn btn-primary w-100">Add New</button>
           </Link>
         </div>
       </div>
+
       {loading ? (
         <div className="text-center my-5">
           <div className="spinner-border text-primary" role="status">
