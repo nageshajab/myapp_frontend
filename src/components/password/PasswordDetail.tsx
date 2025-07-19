@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getPassword } from "../api/passwordService";
+import { getPassword } from "../../api/passwordService";
 import { useParams } from "react-router-dom";
 
 const PasswordDetail: React.FC = () => {

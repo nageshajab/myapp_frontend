@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "../../config";
+import { API_URL, subscription_key } from "../../../config";
 import { toast } from "react-toastify";
-import { subscription_key } from "../../config";
 
 interface RegisterProps {}
 interface UserData {

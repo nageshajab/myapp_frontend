@@ -1,32 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { createDate, updateDate, getDate } from "../api/DatesService";
+import {
+  createTransactionentry,
+  updateTransactionEntry,
+  GetTransaction,
+} from "../../api/TransactionService";
 import { useParams, useNavigate } from "react-router-dom";
 
-const CreateDateForm = () => {
+const CreateTransactionEntryForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     title: "",
-    description: "",
     date: "",
-    duration: "",
-    isRecurring: false,
-    frequency: "Daily",
+    amount: 0,
     userid: localStorage.getItem("token") || "",
+    description: "",
   });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (id) {
       setLoading(true);
-      getDate(id)
+      GetTransaction(id)
         .then((res) => {
-          setForm(res.data);
+          const formattedDate = res.data.date.split("T")[0]; // Assuming date is in ISO format
+          setForm({ ...res.data, date: formattedDate });
           setLoading(false);
         })
         .catch((err) => {
-          toast.error("Error fetching date" + err);
+          toast.error("Error fetching transaction" + err);
           setLoading(false);
         });
     }
@@ -42,12 +45,10 @@ const CreateDateForm = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const target = e.target;
-    const checked = target.type === "checkbox" ? target.checked : undefined;
-    const { name, value, type } = e.target;
+    const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     }));
   };
 
@@ -56,13 +57,13 @@ const CreateDateForm = () => {
 
     try {
       if (id) {
-        await updateDate(form);
-        toast.success("Date updated successfully");
+        await updateTransactionEntry(form);
+        toast.success("transaction updated successfully");
       } else {
-        await createDate(form);
-        toast.success("Date created successfully");
+        await createTransactionentry(form);
+        toast.success("transaction created successfully");
       }
-      navigate("/datelist");
+      navigate("/transactionlist");
     } catch (err) {
       toast.error("Error submitting form");
     } finally {
@@ -89,16 +90,6 @@ const CreateDateForm = () => {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Description</label>
-          <input
-            type="text"
-            name="description"
-            value={form.description}
-            onChange={handleChange}
-            className="form-control"
-          />
-        </div>
-        <div className="mb-3">
           <label className="form-label">Date</label>
           <input
             type="date"
@@ -107,6 +98,16 @@ const CreateDateForm = () => {
             onChange={handleChange}
             className="form-control"
             required
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Amount</label>
+          <input
+            type="number"
+            name="amount"
+            value={form.amount}
+            onChange={handleChange}
+            className="form-control"
           />
         </div>
         <div className="mb-3" hidden>
@@ -124,47 +125,31 @@ const CreateDateForm = () => {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Duration</label>
+          <label className="form-label">Description</label>
           <input
             type="text"
-            name="duration"
-            value={form.duration}
+            name="description"
+            value={form.description}
             onChange={handleChange}
             className="form-control"
           />
         </div>
-        <div className="form-check mb-3">
-          <input
-            type="checkbox"
-            name="isRecurring"
-            checked={form.isRecurring}
-            onChange={handleChange}
-            className="form-check-input"
-          />
-          <label className="form-check-label">Recurring Event</label>
+
+        <div className="d-flex">
+          <button
+            type="button"
+            className="btn btn-secondary w-50 me-2"
+            onClick={() => navigate("/transactionlist")}
+          >
+            Cancel
+          </button>
+          <button type="submit" className="btn btn-primary w-50">
+            Save
+          </button>
         </div>
-        {form.isRecurring && (
-          <div className="mb-3">
-            <label className="form-label">Frequency</label>
-            <select
-              name="frequency"
-              value={form.frequency}
-              onChange={handleChange}
-              className="form-select"
-            >
-              <option>Daily</option>
-              <option>Weekly</option>
-              <option>Monthly</option>
-              <option>Custom</option>
-            </select>
-          </div>
-        )}
-        <button type="submit" className="btn btn-primary w-100">
-          Save
-        </button>
       </form>
     </div>
   );
 };
 
-export default CreateDateForm;
+export default CreateTransactionEntryForm;

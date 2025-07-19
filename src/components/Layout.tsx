@@ -65,6 +65,16 @@ const Layout = () => {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link" to="/tasklist">
+                  Tasks
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/transactionlist">
+                  Transactions
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link className="nav-link" to="/changepassword">
                   Change Password
                 </Link>

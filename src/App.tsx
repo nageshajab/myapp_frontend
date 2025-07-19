@@ -1,18 +1,27 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import Layout from "./components/Layout";
 import Home from "./components/Home";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import ChangePassword from "./components/ChangePassword";
-import PasswordList from "./components/PasswordList";
-import PasswordForm from "./components/PasswordForm";
-import DateList from "./components/DateList";
 
-import DateForm from "./components/CreateDateForm";
-import PasswordDetail from "./components/PasswordDetail";
+import Login from "./components/admin/Login";
+import Register from "./components/admin/Register";
+import ChangePassword from "./components/admin/ChangePassword";
 
-import CreateKhataEntryForm from "./components/CreateKhataEntryForm";
-import KhataList from "./components/KhataList";
+import PasswordList from "./components/password/PasswordList";
+import PasswordForm from "./components/password/PasswordForm";
+import PasswordDetail from "./components/password/PasswordDetail";
+
+import DateList from "./components/Dates/DateList";
+import DateForm from "./components/Dates/CreateDateForm";
+
+import CreateKhataEntryForm from "./components/KhataEntry/CreateKhataEntryForm";
+import KhataList from "./components/KhataEntry/KhataList";
+
+import CreateTaskEntryForm from "./components/Tasks/CreateTaskEntryForm";
+import TaskList from "./components/Tasks/TaskList";
+
+import CreateTransactionEntryForm from "./components/Transactions/CreateTransactionEntryForm";
+import TransactionList from "./components/Transactions/TransactionsList";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,6 +36,7 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
           <Route path="changepassword" element={<ChangePassword />} />
+
           <Route path="passwordlist" element={<PasswordList />} />
           <Route path="passwordlist/create" element={<PasswordForm />} />
           <Route path="passwordlist/edit/:id" element={<PasswordForm />} />
@@ -39,6 +49,20 @@ const App = () => {
           <Route path="khatalist" element={<KhataList />} />
           <Route path="khata/create" element={<CreateKhataEntryForm />} />
           <Route path="khata/edit/:id" element={<CreateKhataEntryForm />} />
+
+          <Route path="tasklist" element={<TaskList />} />
+          <Route path="task/create" element={<CreateTaskEntryForm />} />
+          <Route path="task/edit/:id" element={<CreateTaskEntryForm />} />
+
+          <Route path="transactionlist" element={<TransactionList />} />
+          <Route
+            path="transaction/create"
+            element={<CreateTransactionEntryForm />}
+          />
+          <Route
+            path="transaction/edit/:id"
+            element={<CreateTransactionEntryForm />}
+          />
         </Route>
       </Routes>
       <ToastContainer />

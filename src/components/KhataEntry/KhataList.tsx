@@ -1,13 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { listPasswords, deletePassword } from "../api/passwordService";
+import { useEffect, useState } from "react";
+import { KhataDelete, GetKhataEntries } from "../../api/KhataService";
 import { Link } from "react-router-dom";
 
-const PasswordList: React.FC = () => {
-  const [loading, setLoading] = useState(false);
+interface KhataItem {
+  id: string;
+  title: string;
+  amount: number;
+  date: string;
+  userid: string;
+  personName: string;
+}
 
-  const [passwords, setPasswords] = useState([]);
+const KhataList = () => {
+  const [loading, setLoading] = useState(false);
+  const [khataentries, setKhataEntries] = useState<KhataItem[]>([]);
   const [searchtxt, setSearchtxt] = useState("");
   const [pageNumber, setPgNo] = useState(1);
+  const [selectedPerson, setSelectedPerson] = useState("");
+  const [distinctPersons, setDistinctPersons] = useState<string[]>([]);
+
   const [pagination, setPagination] = useState({
     pageNumber: 1,
     pageSize: 10,
@@ -15,57 +26,75 @@ const PasswordList: React.FC = () => {
     totalCount: 0,
   });
 
-  const fetchPasswords = async () => {
+  const fetchKhataEntries = async () => {
     setLoading(true);
-    const res = await listPasswords({
+    const res = await GetKhataEntries({
       pageNumber,
       searchtxt,
       userid: localStorage.getItem("token"),
+      personName: selectedPerson,
     });
-    setPasswords(res.data.passwords);
+    setKhataEntries(res.data.khataEntries);
+    setDistinctPersons(res.data.distinctPersonNames);
     setPagination(res.data.pagination);
+
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchPasswords();
-  }, [pageNumber, searchtxt]);
+    fetchKhataEntries();
+  }, [pageNumber, searchtxt, selectedPerson]);
 
   const handlePageChange = (newPageNumber: number) => {
-    setPgNo(newPageNumber); // This triggers useEffect and fetches new data
+    setPgNo(newPageNumber);
   };
 
   const handleDelete = async (id: string) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this password?"
+      "Are you sure you want to delete this entry?"
     );
     if (confirmDelete) {
       setLoading(true);
-      await deletePassword(id);
+      await KhataDelete(id);
       setLoading(false);
-      fetchPasswords();
+      fetchKhataEntries();
     }
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4">Password List</h2>
+    <div className="container mt-4">
+      <h2 className="mb-3">Saved khata entries</h2>
       <div className="row mb-3">
-        <div className="col-md-8">
+        <div className="col-md-4">
           <input
             type="text"
             className="form-control"
-            placeholder="Search by URL"
+            placeholder="Search by khata entry"
             value={searchtxt}
             onChange={(e) => setSearchtxt(e.target.value)}
           />
         </div>
         <div className="col-md-4">
-          <Link to="/passwordlist/create">
+          <select
+            className="form-select"
+            value={selectedPerson}
+            onChange={(e) => setSelectedPerson(e.target.value)}
+          >
+            <option value="">Select Person</option>
+            {distinctPersons.map((person) => (
+              <option key={person} value={person}>
+                {person}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-md-4">
+          <Link to="/khata/create">
             <button className="btn btn-primary w-100">Add New</button>
           </Link>
         </div>
       </div>
+
       {loading ? (
         <div className="text-center my-5">
           <div className="spinner-border text-primary" role="status">
@@ -74,17 +103,22 @@ const PasswordList: React.FC = () => {
         </div>
       ) : (
         <ul className="list-group">
-          {passwords.map((item: any) => (
+          {khataentries.map((item) => (
             <li
               key={item.id}
               className="list-group-item d-flex justify-content-between align-items-center"
             >
               <div>
-                <h5 className="mb-1">{item.system}</h5>
-                <small>Username: {item.userName}</small>
+                <h5 className="mb-1">{item.title}</h5>
+                <p className="mb-1">{item.personName}</p>
+                <p className="mb-1">{item.amount}</p>
+                <p className="mb-1">
+                  <strong>Date:</strong>{" "}
+                  {new Date(item.date).toLocaleDateString("en-GB")}
+                </p>
               </div>
               <div>
-                <Link to={`/passwordlist/edit/${item.id}`}>
+                <Link to={`/khata/edit/${item.id}`}>
                   <button className="btn btn-sm btn-secondary me-2">
                     Edit
                   </button>
@@ -145,4 +179,4 @@ const PasswordList: React.FC = () => {
   );
 };
 
-export default PasswordList;
+export default KhataList;

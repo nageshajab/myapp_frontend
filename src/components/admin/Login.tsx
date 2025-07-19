@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "../../config";
-import { subscription_key } from "../../config";
+import { API_URL, subscription_key } from "../../../config";
 import { toast } from "react-toastify";
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);

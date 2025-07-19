@@ -3,7 +3,7 @@ import {
   createPassword,
   updatePassword,
   getPassword,
-} from "../api/passwordService";
+} from "../../api/passwordService";
 import { useParams, useNavigate } from "react-router-dom";
 
 const PasswordForm: React.FC = () => {
