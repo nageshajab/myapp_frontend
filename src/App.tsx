@@ -23,6 +23,9 @@ import TaskList from "./components/Tasks/TaskList";
 import CreateTransactionEntryForm from "./components/Transactions/CreateTransactionEntryForm";
 import TransactionList from "./components/Transactions/TransactionsList";
 
+import CreateWatchlist from "./components/Watchlist/CreateWatchlist";
+import WatchlistItems from "./components/Watchlist/WatchlistItems";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -63,6 +66,10 @@ const App = () => {
             path="transaction/edit/:id"
             element={<CreateTransactionEntryForm />}
           />
+
+          <Route path="watchlistitems" element={<WatchlistItems />} />
+          <Route path="watchlistitems/create" element={<CreateWatchlist />} />
+          <Route path="watchlistitems/edit/:id" element={<CreateWatchlist />} />
         </Route>
       </Routes>
       <ToastContainer />

@@ -75,6 +75,11 @@ const Layout = () => {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link" to="/watchlistitems">
+                  WatchlistItems
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link className="nav-link" to="/changepassword">
                   Change Password
                 </Link>

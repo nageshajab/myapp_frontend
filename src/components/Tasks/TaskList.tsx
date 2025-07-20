@@ -63,7 +63,7 @@ const TaskList = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-3">Tasks</h2>
+      <h2 className="mb-3">To do List</h2>
       <div className="row mb-3">
         <div className="col-md-6">
           <input
