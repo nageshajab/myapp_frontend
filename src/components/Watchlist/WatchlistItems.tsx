@@ -28,11 +28,6 @@ const WatchlistItems = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("");
   const [selectedOtt, setSelectedOtt] = useState("");
-  const [distinctStatus, setDistinctStatus] = useState<string[]>([]);
-  const [distinctType, setDistinctType] = useState<string[]>([]);
-  const [distinctLanguage, setDistinctLanguage] = useState<string[]>([]);
-  const [distinctGenre, setDistinctGenre] = useState<string[]>([]);
-  const [distinctOtt, setDistinctOtt] = useState<string[]>([]);
   const [pagination, setPagination] = useState({
     pageNumber: 1,
     pageSize: 10,
@@ -53,11 +48,6 @@ const WatchlistItems = () => {
       ott: selectedOtt,
     });
     setMovieEntries(res.data.items);
-    setDistinctStatus(res.data.distinctStatus);
-    setDistinctType(res.data.distinctType);
-    setDistinctLanguage(res.data.distinctLanguage);
-    setDistinctGenre(res.data.distinctGenre);
-    setDistinctOtt(res.data.distinctOtt);
     setPagination(res.data.pagination);
     setLoading(false);
   };
