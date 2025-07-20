@@ -163,14 +163,14 @@ const CreateWatchlist = () => {
             onChange={handleChange}
             className="form-control"
           >
-            <option value="">Select Genre</option>, , , , Other
-            <option value="Netflix">Netflix</option>
-            <option value="Prime">Prime</option>
-            <option value="Hotstar">Hotstar</option>
-            <option value="SonyLiv">SonyLiv</option>
-            <option value="Zee5">Zee5</option>
-            <option value="YouTube">YouTube</option>
-            <option value="Other">Other</option>
+            <option value="">Select OTT</option>
+            <option value="0">Netflix</option>
+            <option value="1">Prime</option>
+            <option value="2">Hotstar</option>
+            <option value="3">SonyLiv</option>
+            <option value="4">Zee5</option>
+            <option value="5">YouTube</option>
+            <option value="6">Other</option>
           </select>
         </div>
         <div className="mb-3">
