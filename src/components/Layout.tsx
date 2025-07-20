@@ -1,8 +1,8 @@
 import { Link, useNavigate, Outlet } from "react-router-dom";
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useIdleTimer } from "react-idle-timer";
 import { toast } from "react-toastify";
+import { Dropdown, NavDropdown } from "react-bootstrap";
+
 const Layout = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -46,7 +46,6 @@ const Layout = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-
           <div className="collapse navbar-collapse" id="navbarContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
@@ -59,44 +58,45 @@ const Layout = () => {
                   Dates
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/khatalist">
+              <NavDropdown title="Finance" id="finance-dropdown">
+                <NavDropdown.Item as={Link} to="/khatalist">
                   Khatabook
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/tasklist">
-                  Tasks
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/transactionlist">
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/transactionlist">
                   Transactions
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/watchlistitems">
-                  WatchlistItems
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/changepassword">
-                  Change Password
-                </Link>
-              </li>
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/rentlist">
+                  Rents
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/tenantlist">
+                  Tenants
+                </NavDropdown.Item>
+              </NavDropdown>
+              <NavDropdown title="Tasks" id="tasks-dropdown">
+                <NavDropdown.Item as={Link} to="/tasklist">
+                  To do
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/watchlistitems">
+                  Watchlist Items
+                </NavDropdown.Item>
+              </NavDropdown>
             </ul>
-
             <div className="d-flex">
               {token ? (
-                <>
-                  <span className="navbar-text me-3">Welcome, {username}!</span>
-                  <button
-                    className="btn btn-outline-danger"
-                    onClick={handleLogout}
+                <Dropdown>
+                  <Dropdown.Toggle
+                    variant="outline-secondary"
+                    id="dropdown-basic"
                   >
-                    Logout
-                  </button>
-                </>
+                    Welcome, {username}!
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item as={Link} to="/changepassword">
+                      Change Password
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               ) : (
                 <Link className="btn btn-outline-primary" to="/login">
                   Login
@@ -106,7 +106,6 @@ const Layout = () => {
           </div>
         </div>
       </nav>
-
       <main className="container mt-4">
         <Outlet />
       </main>

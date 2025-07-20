@@ -74,6 +74,7 @@ const Login = () => {
                     type="password"
                     className="form-control"
                     value={password}
+                    autoComplete="new-password"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setPassword(e.target.value)
                     }

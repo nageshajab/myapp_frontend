@@ -1,23 +1,21 @@
 import { useEffect, useState } from "react";
-import { KhataDelete, GetKhataEntries } from "../../api/KhataService";
+import { DeleteTenant, GetTenants } from "../../api/TenantService";
 import { Link } from "react-router-dom";
 
-interface KhataItem {
+interface tenantItem {
   id: string;
-  title: string;
-  amount: number;
-  date: string;
+  startDate: string;
+  endDate: string;
+  deposit: number;
   userid: string;
-  personName: string;
+  tenantName: string;
 }
 
-const KhataList = () => {
+const TenantList = () => {
   const [loading, setLoading] = useState(false);
-  const [khataentries, setKhataEntries] = useState<KhataItem[]>([]);
+  const [tenants, setTenants] = useState<tenantItem[]>([]);
   const [searchtxt, setSearchtxt] = useState("");
   const [pageNumber, setPgNo] = useState(1);
-  const [selectedPerson, setSelectedPerson] = useState("");
-  const [distinctPersons, setDistinctPersons] = useState<string[]>([]);
 
   const [pagination, setPagination] = useState({
     pageNumber: 1,
@@ -26,24 +24,21 @@ const KhataList = () => {
     totalCount: 0,
   });
 
-  const fetchKhataEntries = async () => {
+  const fetchData = async () => {
     setLoading(true);
-    const res = await GetKhataEntries({
+    const res = await GetTenants({
       pageNumber,
       searchtxt,
       userid: localStorage.getItem("token"),
-      personName: selectedPerson,
     });
-    setKhataEntries(res.data.khataEntries);
-    setDistinctPersons(res.data.distinctPersonNames);
+    setTenants(res.data.tenants);
     setPagination(res.data.pagination);
-
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchKhataEntries();
-  }, [pageNumber, searchtxt, selectedPerson]);
+    fetchData();
+  }, [pageNumber, searchtxt]);
 
   const handlePageChange = (newPageNumber: number) => {
     setPgNo(newPageNumber);
@@ -55,41 +50,27 @@ const KhataList = () => {
     );
     if (confirmDelete) {
       setLoading(true);
-      await KhataDelete(id);
+      await DeleteTenant(id);
       setLoading(false);
-      fetchKhataEntries();
+      fetchData();
     }
   };
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-3">Khata book</h2>
+      <h2 className="mb-3">Tenants</h2>
       <div className="row mb-3">
         <div className="col-md-4">
           <input
             type="text"
             className="form-control"
-            placeholder="Search by khata entry"
+            placeholder="Search by tenant name"
             value={searchtxt}
             onChange={(e) => setSearchtxt(e.target.value)}
           />
         </div>
         <div className="col-md-4">
-          <select
-            className="form-select"
-            value={selectedPerson}
-            onChange={(e) => setSelectedPerson(e.target.value)}
-          >
-            <option value="">Select Person</option>
-            {distinctPersons.map((person) => (
-              <option key={person} value={person}>
-                {person}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="col-md-4">
-          <Link to="/khata/create">
+          <Link to="/tenant/create">
             <button className="btn btn-primary w-100">Add New</button>
           </Link>
         </div>
@@ -103,22 +84,25 @@ const KhataList = () => {
         </div>
       ) : (
         <ul className="list-group">
-          {khataentries.map((item) => (
+          {tenants.map((item) => (
             <li
               key={item.id}
               className="list-group-item d-flex justify-content-between align-items-center"
             >
               <div>
-                <h5 className="mb-1">{item.title}</h5>
-                <p className="mb-1">{item.personName}</p>
-                <p className="mb-1">{item.amount}</p>
+                <h5 className="mb-1">{item.tenantName}</h5>
+                <p className="mb-1">{item.deposit}</p>
                 <p className="mb-1">
-                  <strong>Date:</strong>{" "}
-                  {new Date(item.date).toLocaleDateString("en-GB")}
+                  <strong>Start Date:</strong>{" "}
+                  {new Date(item.startDate).toLocaleDateString("en-GB")}
+                </p>
+                <p className="mb-1">
+                  <strong>End Date:</strong>{" "}
+                  {new Date(item.endDate).toLocaleDateString("en-GB")}
                 </p>
               </div>
               <div>
-                <Link to={`/khata/edit/${item.id}`}>
+                <Link to={`/tenant/edit/${item.id}`}>
                   <button className="btn btn-sm btn-secondary me-2">
                     Edit
                   </button>
@@ -179,4 +163,4 @@ const KhataList = () => {
   );
 };
 
-export default KhataList;
+export default TenantList;

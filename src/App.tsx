@@ -26,6 +26,11 @@ import TransactionList from "./components/Transactions/TransactionsList";
 import CreateWatchlist from "./components/Watchlist/CreateWatchlist";
 import WatchlistItems from "./components/Watchlist/WatchlistItems";
 
+import RentList from "./components/RentAndTenant/RentList";
+import CreateRent from "./components/RentAndTenant/CreateRent";
+import TenantList from "./components/RentAndTenant/TenantList";
+import CreateTenant from "./components/RentAndTenant/CreateTenant";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -70,6 +75,14 @@ const App = () => {
           <Route path="watchlistitems" element={<WatchlistItems />} />
           <Route path="watchlistitems/create" element={<CreateWatchlist />} />
           <Route path="watchlistitems/edit/:id" element={<CreateWatchlist />} />
+
+          <Route path="rentlist" element={<RentList />} />
+          <Route path="rent/create" element={<CreateRent />} />
+          <Route path="rent/edit/:id" element={<CreateRent />} />
+
+          <Route path="tenantlist" element={<TenantList />} />
+          <Route path="tenant/create" element={<CreateTenant />} />
+          <Route path="tenant/edit/:id" element={<CreateTenant />} />
         </Route>
       </Routes>
       <ToastContainer />

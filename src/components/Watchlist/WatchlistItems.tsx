@@ -82,7 +82,7 @@ const WatchlistItems = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-3">Movie List</h2>
+      <h2 className="mb-3">Watch List</h2>
       <div className="row mb-3">
         <div className="col-md-2">
           <input

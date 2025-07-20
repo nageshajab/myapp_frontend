@@ -1,49 +1,57 @@
 import { useEffect, useState } from "react";
 import { KhataDelete, GetKhataEntries } from "../../api/KhataService";
 import { Link } from "react-router-dom";
+import { DeleteRent, GetRents } from "../../api/RentService";
 
-interface KhataItem {
+interface rentItem {
   id: string;
-  title: string;
-  amount: number;
   date: string;
+  paidAmount: number;
+  remainingAmount: number;
+  mseb: number;
   userid: string;
-  personName: string;
+  tenantName: string;
 }
 
-const KhataList = () => {
+const RentList = () => {
   const [loading, setLoading] = useState(false);
-  const [khataentries, setKhataEntries] = useState<KhataItem[]>([]);
+  const [rents, setRents] = useState<rentItem[]>([]);
   const [searchtxt, setSearchtxt] = useState("");
   const [pageNumber, setPgNo] = useState(1);
-  const [selectedPerson, setSelectedPerson] = useState("");
-  const [distinctPersons, setDistinctPersons] = useState<string[]>([]);
+  const [selectedTenant, setSelectedTenant] = useState("");
+  const [tenants, setTenants] = useState<string[]>([]);
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
 
   const [pagination, setPagination] = useState({
     pageNumber: 1,
     pageSize: 10,
     totalPages: 1,
     totalCount: 0,
+    month: new Date().getMonth(),
+    year: new Date().getFullYear(),
   });
 
-  const fetchKhataEntries = async () => {
+  const fetchData = async () => {
     setLoading(true);
-    const res = await GetKhataEntries({
+    const res = await GetRents({
       pageNumber,
       searchtxt,
       userid: localStorage.getItem("token"),
-      personName: selectedPerson,
+      tenant: selectedTenant,
+      month: pagination.month,
+      year: pagination.year,
     });
-    setKhataEntries(res.data.khataEntries);
-    setDistinctPersons(res.data.distinctPersonNames);
+    setRents(res.data.rents);
+    setTenants(res.data.tenants);
     setPagination(res.data.pagination);
 
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchKhataEntries();
-  }, [pageNumber, searchtxt, selectedPerson]);
+    fetchData();
+  }, [pageNumber, searchtxt, selectedTenant]);
 
   const handlePageChange = (newPageNumber: number) => {
     setPgNo(newPageNumber);
@@ -55,21 +63,21 @@ const KhataList = () => {
     );
     if (confirmDelete) {
       setLoading(true);
-      await KhataDelete(id);
+      await DeleteRent(id);
       setLoading(false);
-      fetchKhataEntries();
+      fetchData();
     }
   };
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-3">Khata book</h2>
+      <h2 className="mb-3">Rents</h2>
       <div className="row mb-3">
         <div className="col-md-4">
           <input
             type="text"
             className="form-control"
-            placeholder="Search by khata entry"
+            placeholder="Search by tenant name"
             value={searchtxt}
             onChange={(e) => setSearchtxt(e.target.value)}
           />
@@ -77,11 +85,19 @@ const KhataList = () => {
         <div className="col-md-4">
           <select
             className="form-select"
-            value={selectedPerson}
-            onChange={(e) => setSelectedPerson(e.target.value)}
+            value={selectedTenant}
+            onChange={(e) => {
+              setSelectedTenant(e.target.value);
+              setPagination((prev) => ({
+                ...prev,
+                month: new Date().getMonth() + 1,
+                year: new Date().getFullYear(),
+                pageNumber: 1,
+              }));
+            }}
           >
-            <option value="">Select Person</option>
-            {distinctPersons.map((person) => (
+            <option value="">Select Tenant</option>
+            {tenants.map((person) => (
               <option key={person} value={person}>
                 {person}
               </option>
@@ -89,7 +105,7 @@ const KhataList = () => {
           </select>
         </div>
         <div className="col-md-4">
-          <Link to="/khata/create">
+          <Link to="/rent/create">
             <button className="btn btn-primary w-100">Add New</button>
           </Link>
         </div>
@@ -103,22 +119,23 @@ const KhataList = () => {
         </div>
       ) : (
         <ul className="list-group">
-          {khataentries.map((item) => (
+          {rents.map((item) => (
             <li
               key={item.id}
               className="list-group-item d-flex justify-content-between align-items-center"
             >
               <div>
-                <h5 className="mb-1">{item.title}</h5>
-                <p className="mb-1">{item.personName}</p>
-                <p className="mb-1">{item.amount}</p>
+                <h5 className="mb-1">{item.tenantName}</h5>
+                <p className="mb-1">{item.mseb}</p>
+                <p className="mb-1">{item.paidAmount}</p>
+                <p className="mb-1">{item.remainingAmount}</p>
                 <p className="mb-1">
                   <strong>Date:</strong>{" "}
                   {new Date(item.date).toLocaleDateString("en-GB")}
                 </p>
               </div>
               <div>
-                <Link to={`/khata/edit/${item.id}`}>
+                <Link to={`/rent/edit/${item.id}`}>
                   <button className="btn btn-sm btn-secondary me-2">
                     Edit
                   </button>
@@ -179,4 +196,4 @@ const KhataList = () => {
   );
 };
 
-export default KhataList;
+export default RentList;
