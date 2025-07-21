@@ -28,6 +28,7 @@ import WatchlistItems from "./components/Watchlist/WatchlistItems";
 
 import RentList from "./components/RentAndTenant/RentList";
 import CreateRent from "./components/RentAndTenant/CreateRent";
+import GetPendingRents from "./components/RentAndTenant/PendingRents";
 import TenantList from "./components/RentAndTenant/TenantList";
 import CreateTenant from "./components/RentAndTenant/CreateTenant";
 
@@ -79,6 +80,7 @@ const App = () => {
           <Route path="rentlist" element={<RentList />} />
           <Route path="rent/create" element={<CreateRent />} />
           <Route path="rent/edit/:id" element={<CreateRent />} />
+          <Route path="getpendingrents" element={<GetPendingRents />} />
 
           <Route path="tenantlist" element={<TenantList />} />
           <Route path="tenant/create" element={<CreateTenant />} />

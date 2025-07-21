@@ -9,6 +9,10 @@ interface tenantItem {
   deposit: number;
   userid: string;
   tenantName: string;
+  description: string;
+  rent: number;
+  mobile: number;
+  isActive: boolean;
 }
 
 const TenantList = () => {
@@ -83,41 +87,62 @@ const TenantList = () => {
           </div>
         </div>
       ) : (
-        <ul className="list-group">
-          {tenants.map((item) => (
-            <li
-              key={item.id}
-              className="list-group-item d-flex justify-content-between align-items-center"
-            >
-              <div>
-                <h5 className="mb-1">{item.tenantName}</h5>
-                <p className="mb-1">{item.deposit}</p>
-                <p className="mb-1">
-                  <strong>Start Date:</strong>{" "}
-                  {new Date(item.startDate).toLocaleDateString("en-GB")}
-                </p>
-                <p className="mb-1">
-                  <strong>End Date:</strong>{" "}
-                  {new Date(item.endDate).toLocaleDateString("en-GB")}
-                </p>
-              </div>
-              <div>
-                <Link to={`/tenant/edit/${item.id}`}>
-                  <button className="btn btn-sm btn-secondary me-2">
-                    Edit
-                  </button>
-                </Link>
-                <button
-                  className="btn btn-sm btn-danger"
-                  onClick={() => handleDelete(item.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div className="table-responsive">
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>Tenant Name</th>
+                <th>Deposit</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Is Active</th>
+                <th>Description</th>
+                <th>Rent</th>
+                <th>Mobile</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tenants.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.tenantName}</td>
+                  <td>{item.deposit}</td>
+                  <td>
+                    {new Date(item.startDate).toLocaleDateString("en-GB")}
+                  </td>
+                  <td>{new Date(item.endDate).toLocaleDateString("en-GB")}</td>
+                  <td>
+                    {item.hasOwnProperty("isActive")
+                      ? item.isActive
+                        ? "Yes"
+                        : "No"
+                      : "N/A"}
+                  </td>
+                  <td>{item.description}</td>
+                  <td>{item.rent}</td>
+                  <td>{item.mobile}</td>
+                  <td>
+                    <Link to={`/tenant/edit/${item.id}`}>
+                      <button className="btn btn-sm btn-secondary me-2">
+                        {" "}
+                        Edit{" "}
+                      </button>
+                    </Link>
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      {" "}
+                      Delete{" "}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
+
       {pagination.totalPages > 1 && (
         <nav className="mt-4">
           <ul className="pagination justify-content-center">

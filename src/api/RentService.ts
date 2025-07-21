@@ -14,5 +14,6 @@ export const GetRents = (data: any) => api.post(`/GetRents`, data);
 export const GetRent = (id: string) => api.get(`/GetRent?id=${id}`);
 export const updateRent = ( data: any) => api.post(`/updateRent`, data);
 export const DeleteRent = (id: string) => api.post(`/DeleteRent?id=${id}`);
+export const GetPendingRents = (data: any) => api.post(`/GetPendingRents`, data);
 
 export const GetAllTenants = (data: any) => api.post(`/GetAllTenants`, data);

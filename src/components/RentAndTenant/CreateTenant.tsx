@@ -11,6 +11,10 @@ const CreateTenant = () => {
     endDate: "0001-01-01",
     deposit: 0,
     tenantName: "",
+    description: "",
+    rent: 0,
+    mobile: 0,
+    isActive: true,
     userid: localStorage.getItem("token") || "",
   });
   const [loading, setLoading] = useState(false);
@@ -51,7 +55,7 @@ const CreateTenant = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       if (id) {
         await updateTenant(form);
@@ -64,6 +68,7 @@ const CreateTenant = () => {
     } catch (err) {
       toast.error("Error submitting form");
     } finally {
+      setLoading(false);
     }
   };
 
@@ -88,14 +93,15 @@ const CreateTenant = () => {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">End Date</label>
+          <label className="form-label">IsActive</label>
           <input
-            type="date"
-            name="endDate"
-            value={form.endDate}
-            onChange={handleChange}
-            min="0001-01-01"
-            className="form-control"
+            type="checkbox"
+            name="isActive"
+            checked={form.isActive}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, isActive: e.target.checked }))
+            }
+            className="form-check-input"
           />
         </div>
         <div className="mb-3">
@@ -120,7 +126,47 @@ const CreateTenant = () => {
             required
           />
         </div>
-
+        <div className="mb-3">
+          <label className="form-label">Description</label>
+          <input
+            type="text"
+            name="description"
+            value={form.description}
+            onChange={handleChange}
+            className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Rent</label>
+          <input
+            type="number"
+            name="rent"
+            value={form.rent}
+            onChange={handleChange}
+            className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Mobile</label>
+          <input
+            type="number"
+            name="mobile"
+            value={form.mobile}
+            onChange={handleChange}
+            className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">End Date</label>
+          <input
+            type="date"
+            name="endDate"
+            value={form.endDate}
+            onChange={handleChange}
+            min="0001-01-01"
+            className="form-control"
+          />
+        </div>
         <div className="mb-3" hidden>
           <label htmlFor="userid" className="form-label">
             User ID
@@ -144,8 +190,21 @@ const CreateTenant = () => {
           >
             Cancel
           </button>
-          <button type="submit" className="btn btn-primary w-50">
-            Save
+          <button
+            type="submit"
+            className="btn btn-primary w-50"
+            disabled={loading}
+          >
+            {loading ? (
+              <div
+                className="spinner-border spinner-border-sm text-light"
+                role="status"
+              >
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
       </form>
