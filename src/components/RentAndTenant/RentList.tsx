@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { KhataDelete, GetKhataEntries } from "../../api/KhataService";
 import { Link } from "react-router-dom";
 import { DeleteRent, GetRents } from "../../api/RentService";
 
@@ -20,8 +19,6 @@ const RentList = () => {
   const [pageNumber, setPgNo] = useState(1);
   const [selectedTenant, setSelectedTenant] = useState("");
   const [tenants, setTenants] = useState<string[]>([]);
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
 
   const [pagination, setPagination] = useState({
     pageNumber: 1,

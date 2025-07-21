@@ -12,10 +12,8 @@ import moment from "moment";
 const CreateRent = () => {
   var month = new Date().getMonth() + 1;
   var formattedMonth = month < 10 ? `0${month}` : month.toString();
-  const now = moment();
   const [selectedTenant, setSelectedTenant] = useState("");
   const [tenants, setTenants] = useState<string[]>([]);
-  var year = new Date().getFullYear();
   const { id } = useParams();
   const navigate = useNavigate();
   const [form, setForm] = useState({
