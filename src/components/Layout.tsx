@@ -2,8 +2,10 @@ import { Link, useNavigate, Outlet } from "react-router-dom";
 import { useIdleTimer } from "react-idle-timer";
 import { toast } from "react-toastify";
 import { Dropdown, NavDropdown } from "react-bootstrap";
+import { useMsal } from "@azure/msal-react";
 
 const Layout = () => {
+  const { instance } = useMsal();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("username");
@@ -25,6 +27,7 @@ const Layout = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    if (instance) instance.logoutPopup();
     navigate("/login");
   };
 
