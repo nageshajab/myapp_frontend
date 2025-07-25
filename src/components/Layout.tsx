@@ -5,7 +5,7 @@ import { Dropdown, NavDropdown } from "react-bootstrap";
 import { useMsal } from "@azure/msal-react";
 
 const Layout = () => {
-  const { instance, accounts } = useMsal();
+  const { instance } = useMsal();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("username");

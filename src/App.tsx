@@ -1,57 +1,67 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { useMsal } from "@azure/msal-react";
-
+import React, { lazy } from "react";
 import Layout from "./components/Layout";
-import Home from "./components/Home";
-
-import Login from "./components/admin/Login";
-import Register from "./components/admin/Register";
-import ChangePassword from "./components/admin/ChangePassword";
-
-import PasswordList from "./components/password/PasswordList";
-import PasswordForm from "./components/password/PasswordForm";
-import PasswordDetail from "./components/password/PasswordDetail";
-
-import DateList from "./components/Dates/DateList";
-import DateForm from "./components/Dates/CreateDateForm";
-
-import CreateKhataEntryForm from "./components/KhataEntry/CreateKhataEntryForm";
-import KhataList from "./components/KhataEntry/KhataList";
-
-import CreateTaskEntryForm from "./components/Tasks/CreateTaskEntryForm";
-import TaskList from "./components/Tasks/TaskList";
-
-import CreateTransactionEntryForm from "./components/Transactions/CreateTransactionEntryForm";
-import TransactionList from "./components/Transactions/TransactionsList";
-
-import CreateWatchlist from "./components/Watchlist/CreateWatchlist";
-import WatchlistItems from "./components/Watchlist/WatchlistItems";
-
-import RentList from "./components/RentAndTenant/RentList";
-import CreateRent from "./components/RentAndTenant/CreateRent";
-import GetPendingRents from "./components/RentAndTenant/PendingRents";
-import TenantList from "./components/RentAndTenant/TenantList";
-import CreateTenant from "./components/RentAndTenant/CreateTenant";
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+const Home = lazy(() => import("./components/Home"));
+const Login = lazy(() => import("./components/admin/Login"));
+const Register = lazy(() => import("./components/admin/Register"));
+const ChangePassword = lazy(() => import("./components/admin/ChangePassword"));
+const PasswordList = lazy(() => import("./components/password/PasswordList"));
+const PasswordForm = lazy(() => import("./components/password/PasswordForm"));
+const PasswordDetail = lazy(
+  () => import("./components/password/PasswordDetail")
+);
+const DateList = lazy(() => import("./components/Dates/DateList"));
+const DateForm = lazy(() => import("./components/Dates/CreateDateForm"));
+const CreateKhataEntryForm = lazy(
+  () => import("./components/KhataEntry/CreateKhataEntryForm")
+);
+const KhataList = lazy(() => import("./components/KhataEntry/KhataList"));
+const CreateTaskEntryForm = lazy(
+  () => import("./components/Tasks/CreateTaskEntryForm")
+);
+const TaskList = lazy(() => import("./components/Tasks/TaskList"));
+const CreateTransactionEntryForm = lazy(
+  () => import("./components/Transactions/CreateTransactionEntryForm")
+);
+const TransactionList = lazy(
+  () => import("./components/Transactions/TransactionsList")
+);
+const CreateWatchlist = lazy(
+  () => import("./components/Watchlist/CreateWatchlist")
+);
+const WatchlistItems = lazy(
+  () => import("./components/Watchlist/WatchlistItems")
+);
+const RentList = lazy(() => import("./components/RentAndTenant/RentList"));
+const CreateRent = lazy(() => import("./components/RentAndTenant/CreateRent"));
+const GetPendingRents = lazy(
+  () => import("./components/RentAndTenant/PendingRents")
+);
+const TenantList = lazy(() => import("./components/RentAndTenant/TenantList"));
+const CreateTenant = lazy(
+  () => import("./components/RentAndTenant/CreateTenant")
+);
+
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
+  return <>{children}</>;
+};
+
 const App = () => {
-  const { accounts } = useMsal();
   //if you want only login with azure enabled, then keep below block,
+  //const { accounts } = useMsal();
   // const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   //   if (!accounts.length) {
   //     return <Navigate to="/login" />;
   //   }
   //   return <>{children}</>;
   // };
-  const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      return <Navigate to="/login" />;
-    }
-    return <>{children}</>;
-  };
 
   return (
     <BrowserRouter>
