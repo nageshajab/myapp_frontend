@@ -2,13 +2,25 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_URL, subscription_key } from "../../../config";
 import { toast } from "react-toastify";
+import { useMsal } from "@azure/msal-react";
 
 const Login = () => {
+  const { instance } = useMsal();
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  const handleLogin = () => {
+    instance.loginPopup().then((response) => {
+      const username = response.account.username;
+      const userid = response.account.localAccountId;
+      localStorage.setItem("token", userid);
+      localStorage.setItem("username", username);
+      navigate("/");
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -87,16 +99,26 @@ const Login = () => {
                     </div>
                   </div>
                 ) : (
-                  <button type="submit" className="btn btn-primary w-100">
+                  <button
+                    type="submit"
+                    className="btn btn-primary w-100 py-2 fs-5 fw-bold"
+                  >
                     Login
                   </button>
                 )}
                 <button
                   type="button"
-                  className="btn btn-secondary w-100 mt-2"
+                  className="btn btn-outline-secondary w-100 mt-2 py-2 fs-5 fw-bold"
                   onClick={() => navigate("/register")}
                 >
                   Register
+                </button>
+                <button
+                  className="btn btn-outline-success w-100 mt-2 py-2 fs-5 fw-bold"
+                  onClick={handleLogin}
+                >
+                  <i className="fa-brands fa-microsoft me-2"></i>Login With
+                  Azure
                 </button>
                 {error && (
                   <p className="text-danger text-center mt-2">{error}</p>

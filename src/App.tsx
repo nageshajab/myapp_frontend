@@ -1,4 +1,5 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { useMsal } from "@azure/msal-react";
 
 import Layout from "./components/Layout";
 import Home from "./components/Home";
@@ -36,12 +37,36 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
+  const { accounts } = useMsal();
+  //if you want only login with azure enabled, then keep below block,
+  // const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  //   if (!accounts.length) {
+  //     return <Navigate to="/login" />;
+  //   }
+  //   return <>{children}</>;
+  // };
+  const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return <Navigate to="/login" />;
+    }
+    return <>{children}</>;
+  };
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/" element={<Layout />}>
+
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
           <Route path="changepassword" element={<ChangePassword />} />
