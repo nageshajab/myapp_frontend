@@ -91,7 +91,7 @@ const MovieList = () => {
               <div>
                 <h5 className="mb-1">{item.title}</h5>
                 <p className="mb-1">
-                  {API_URL.includes("mango") ? (
+                  {API_URL.includes("myreactappbackendapi") ? (
                     <img
                       src={`${API_URL}/image/${item.id}?subscription-key=${subscription_key}`}
                       alt="MongoDB Image"
