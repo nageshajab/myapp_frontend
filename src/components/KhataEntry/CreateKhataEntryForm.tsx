@@ -4,11 +4,14 @@ import {
   createkhataentry,
   updateKhataEntry,
   KhataGet,
+  GetDistinctPersonNames,
 } from "../../../src/api/KhataService";
 import { useParams, useNavigate } from "react-router-dom";
 
 const CreateKhataEntryForm = () => {
   const { id } = useParams();
+  const [selectedPerson, setSelectedPerson] = useState("");
+  const [distinctPersons, setDistinctPersons] = useState<string[]>([]);
   const navigate = useNavigate();
   const [form, setForm] = useState({
     title: "",
@@ -20,12 +23,32 @@ const CreateKhataEntryForm = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    GetDistinctPersonNames({ userid: localStorage.getItem("token") })
+      .then((res) => {
+        setDistinctPersons(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        toast.error("Error fetching distinct persons" + err);
+        setLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
     if (id) {
       setLoading(true);
       KhataGet(id)
         .then((res) => {
-          const formattedDate = res.data.date.split("T")[0]; // Assuming date is in ISO format
+          const formattedDate = res.data.date.split("T")[0];
           setForm({ ...res.data, date: formattedDate });
+          if (
+            res.data.personName &&
+            distinctPersons.includes(res.data.personName)
+          ) {
+            setSelectedPerson(res.data.personName);
+          } else if (res.data.personName) {
+            setSelectedPerson("other");
+          }
           setLoading(false);
         })
         .catch((err) => {
@@ -33,7 +56,7 @@ const CreateKhataEntryForm = () => {
           setLoading(false);
         });
     }
-  }, [id]);
+  }, [id, distinctPersons]);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
@@ -42,19 +65,21 @@ const CreateKhataEntryForm = () => {
     }
   }, [navigate]);
 
+  useEffect(() => {
+    if (selectedPerson !== "other" && selectedPerson !== "") {
+      setForm((prev) => ({ ...prev, personname: selectedPerson }));
+    }
+  }, [selectedPerson]);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       if (id) {
         await updateKhataEntry(form);
@@ -73,7 +98,6 @@ const CreateKhataEntryForm = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
-
   return (
     <div className="container mt-4">
       <h2 className="text-center">Create Date</h2>
@@ -91,15 +115,35 @@ const CreateKhataEntryForm = () => {
         </div>
         <div className="mb-3">
           <label className="form-label">Person Name</label>
-          <input
-            type="text"
-            name="personname"
-            value={form.personname}
-            onChange={handleChange}
-            className="form-control"
-            required
-          />
+          <select
+            className="form-select"
+            value={selectedPerson}
+            onChange={(e) => setSelectedPerson(e.target.value)}
+          >
+            <option value="">Select Person</option>
+            {distinctPersons.map((person) => (
+              <option key={person} value={person}>
+                {person}
+              </option>
+            ))}
+            <option value="other">Other</option>
+          </select>
+          {selectedPerson === "other" && (
+            <input
+              type="text"
+              name="personname"
+              value={form.personname}
+              onChange={handleChange}
+              className="form-control mt-2"
+              placeholder="Enter person name"
+              required
+            />
+          )}
+          {selectedPerson !== "other" && selectedPerson !== "" && (
+            <input type="hidden" name="personname" value={form.personname} />
+          )}
         </div>
+
         <div className="mb-3">
           <label className="form-label">Amount</label>
           <input
@@ -135,7 +179,6 @@ const CreateKhataEntryForm = () => {
             disabled
           />
         </div>
-
         <div className="d-flex">
           <button
             type="button"
@@ -149,6 +192,7 @@ const CreateKhataEntryForm = () => {
           </button>
         </div>
       </form>
+        
     </div>
   );
 };

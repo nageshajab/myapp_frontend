@@ -68,15 +68,18 @@ const Layout = () => {
                 <NavDropdown.Item as={Link} to="/transactionlist">
                   Transactions
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/rentlist">
-                  Rents
-                </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/getpendingrents">
-                  Get Pending Rents
-                </NavDropdown.Item>
+
                 <NavDropdown.Item as={Link} to="/tenantlist">
                   Tenants
                 </NavDropdown.Item>
+                <NavDropdown title="Rent" id="rent-dropdown">
+                  <NavDropdown.Item as={Link} to="/rentlist">
+                    Rents
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/getpendingrents">
+                    Pending Rents
+                  </NavDropdown.Item>
+                </NavDropdown>
               </NavDropdown>
               <NavDropdown title="Tasks" id="tasks-dropdown">
                 <NavDropdown.Item as={Link} to="/tasklist">
