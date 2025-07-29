@@ -8,6 +8,12 @@ const Home = lazy(() => import("./components/Home"));
 const Login = lazy(() => import("./components/admin/Login"));
 const Register = lazy(() => import("./components/admin/Register"));
 const ChangePassword = lazy(() => import("./components/admin/ChangePassword"));
+
+const DocumentList = lazy(() => import("./components/Documents/DocumentList"));
+const DocumentForm = lazy(
+  () => import("./components/Documents/CreateDocument")
+);
+
 const PasswordList = lazy(() => import("./components/password/PasswordList"));
 const PasswordForm = lazy(() => import("./components/password/PasswordForm"));
 const PasswordDetail = lazy(
@@ -19,6 +25,11 @@ const CreateKhataEntryForm = lazy(
   () => import("./components/KhataEntry/CreateKhataEntryForm")
 );
 const KhataList = lazy(() => import("./components/KhataEntry/KhataList"));
+const KhataReport = lazy(() => import("./components/KhataEntry/KhataReport"));
+
+const MovieList = lazy(() => import("./components/Movie/MovieList"));
+const MovieForm = lazy(() => import("./components/Movie/CreateMovie"));
+
 const CreateTaskEntryForm = lazy(
   () => import("./components/Tasks/CreateTaskEntryForm")
 );
@@ -81,6 +92,14 @@ const App = () => {
           <Route path="home" element={<Home />} />
           <Route path="changepassword" element={<ChangePassword />} />
 
+          <Route path="documentlist" element={<DocumentList />} />
+          <Route path="documentlist/create" element={<DocumentForm />} />
+          <Route path="documentlist/edit/:id" element={<DocumentForm />} />
+
+          <Route path="movielist" element={<MovieList />} />
+          <Route path="movielist/create" element={<MovieForm />} />
+          <Route path="movielist/edit/:id" element={<MovieForm />} />
+
           <Route path="passwordlist" element={<PasswordList />} />
           <Route path="passwordlist/create" element={<PasswordForm />} />
           <Route path="passwordlist/edit/:id" element={<PasswordForm />} />
@@ -93,6 +112,7 @@ const App = () => {
           <Route path="khatalist" element={<KhataList />} />
           <Route path="khata/create" element={<CreateKhataEntryForm />} />
           <Route path="khata/edit/:id" element={<CreateKhataEntryForm />} />
+          <Route path="khatareport" element={<KhataReport />} />
 
           <Route path="tasklist" element={<TaskList />} />
           <Route path="task/create" element={<CreateTaskEntryForm />} />

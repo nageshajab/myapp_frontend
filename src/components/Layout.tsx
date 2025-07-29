@@ -52,6 +52,16 @@ const Layout = () => {
           <div className="collapse navbar-collapse" id="navbarContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
+                <Link className="nav-link" to="/documentlist">
+                  Documents
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/movielist">
+                  Movies
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link className="nav-link" to="/passwordlist">
                   Passwords
                 </Link>
@@ -62,21 +72,29 @@ const Layout = () => {
                 </Link>
               </li>
               <NavDropdown title="Finance" id="finance-dropdown">
-                <NavDropdown.Item as={Link} to="/khatalist">
-                  Khatabook
-                </NavDropdown.Item>
+                <NavDropdown title="Khata" id="khata-dropdown">
+                  <NavDropdown.Item as={Link} to="/khatalist">
+                    Khata Book
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/khatareport">
+                    Khata Report
+                  </NavDropdown.Item>
+                </NavDropdown>
                 <NavDropdown.Item as={Link} to="/transactionlist">
                   Transactions
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/rentlist">
-                  Rents
-                </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/getpendingrents">
-                  Get Pending Rents
-                </NavDropdown.Item>
+
                 <NavDropdown.Item as={Link} to="/tenantlist">
                   Tenants
                 </NavDropdown.Item>
+                <NavDropdown title="Rent" id="rent-dropdown">
+                  <NavDropdown.Item as={Link} to="/rentlist">
+                    Rents
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/getpendingrents">
+                    Pending Rents
+                  </NavDropdown.Item>
+                </NavDropdown>
               </NavDropdown>
               <NavDropdown title="Tasks" id="tasks-dropdown">
                 <NavDropdown.Item as={Link} to="/tasklist">
