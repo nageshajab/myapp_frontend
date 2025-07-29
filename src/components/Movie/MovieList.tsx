@@ -93,7 +93,7 @@ const MovieList = () => {
                 <p className="mb-1">
                   {API_URL.includes("mango") ? (
                     <img
-                      src={`${API_URL}/image/${item.id}?subscription-key=YOUR_SUBSCRIPTION_KEY`}
+                      src={`${API_URL}/image/${item.id}?subscription-key=${subscription_key}`}
                       alt="MongoDB Image"
                     />
                   ) : (
