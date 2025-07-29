@@ -46,14 +46,14 @@ const CreateDocumentForm = () => {
     }
   }, [navigate]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (name === "tags") {
-      setForm({ ...form, tags: value.split(", ") });
-    } else {
-      setForm({ ...form, [name]: value });
-    }
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target;
+  //   if (name === "tags") {
+  //     setForm({ ...form, tags: value.split(", ") });
+  //   } else {
+  //     setForm({ ...form, [name]: value });
+  //   }
+  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

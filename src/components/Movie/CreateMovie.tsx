@@ -45,14 +45,6 @@ const CreateMovie = () => {
     }
   }, [navigate]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (name === "tags") {
-      setForm({ ...form, tags: value.split(", ") });
-    } else {
-      setForm({ ...form, [name]: value });
-    }
-  };
   const handlePaste = (event: React.ClipboardEvent<HTMLDivElement>) => {
     const items = event.clipboardData.items;
     for (let i = 0; i < items.length; i++) {

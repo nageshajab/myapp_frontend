@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {
-  KhataDelete,
   GetPersonKhataReport,
   GetDistinctPersonNames,
 } from "../../api/KhataService";
-
-import { Link } from "react-router-dom";
 
 interface KhataItem {
   id: string;

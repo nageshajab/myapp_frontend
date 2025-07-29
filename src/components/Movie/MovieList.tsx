@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { DeleteMovie, GetMovies } from "../../api/MovieService";
 import { Link } from "react-router-dom";
 import { API_URL } from "../../../config";
-import { subscription_key } from "../../../config";
 
 interface Movie {
   id: string;
