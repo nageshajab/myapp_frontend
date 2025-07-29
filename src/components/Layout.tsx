@@ -62,9 +62,14 @@ const Layout = () => {
                 </Link>
               </li>
               <NavDropdown title="Finance" id="finance-dropdown">
-                <NavDropdown.Item as={Link} to="/khatalist">
-                  Khatabook
-                </NavDropdown.Item>
+                <NavDropdown title="Khata" id="khata-dropdown">
+                  <NavDropdown.Item as={Link} to="/khatalist">
+                    Khata Book
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/khatareport">
+                    Khata Report
+                  </NavDropdown.Item>
+                </NavDropdown>
                 <NavDropdown.Item as={Link} to="/transactionlist">
                   Transactions
                 </NavDropdown.Item>

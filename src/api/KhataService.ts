@@ -16,3 +16,4 @@ export const updateKhataEntry = ( data: any) => api.post(`/updateKhataEntry`, da
 export const KhataDelete = (id: string) => api.post(`/KhataDelete?id=${id}`);
 
 export const GetDistinctPersonNames = (data: any) => api.post(`/GetDistinctPersonNames`, data);
+export const GetPersonKhataReport = (data: any) => api.post(`/GetPersonKhataReport`, data);

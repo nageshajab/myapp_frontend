@@ -19,6 +19,8 @@ const CreateKhataEntryForm = lazy(
   () => import("./components/KhataEntry/CreateKhataEntryForm")
 );
 const KhataList = lazy(() => import("./components/KhataEntry/KhataList"));
+const KhataReport = lazy(() => import("./components/KhataEntry/KhataReport"));
+
 const CreateTaskEntryForm = lazy(
   () => import("./components/Tasks/CreateTaskEntryForm")
 );
@@ -93,6 +95,7 @@ const App = () => {
           <Route path="khatalist" element={<KhataList />} />
           <Route path="khata/create" element={<CreateKhataEntryForm />} />
           <Route path="khata/edit/:id" element={<CreateKhataEntryForm />} />
+          <Route path="khatareport" element={<KhataReport />} />
 
           <Route path="tasklist" element={<TaskList />} />
           <Route path="task/create" element={<CreateTaskEntryForm />} />
