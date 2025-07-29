@@ -57,6 +57,11 @@ const Layout = () => {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link" to="/movielist">
+                  Movies
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link className="nav-link" to="/passwordlist">
                   Passwords
                 </Link>
