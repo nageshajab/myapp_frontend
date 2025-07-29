@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { DeleteMovie, GetMovies } from "../../api/MovieService";
 import { Link } from "react-router-dom";
 import { API_URL } from "../../../config";
-
+import { subscription_key } from "../../../config";
 interface Movie {
   id: string;
   userId: string;
@@ -91,10 +91,17 @@ const MovieList = () => {
               <div>
                 <h5 className="mb-1">{item.title}</h5>
                 <p className="mb-1">
-                  <img
-                    src={`${API_URL}/image/${item.id}`}
-                    alt="MongoDB Image"
-                  />
+                  {API_URL.includes("mango") ? (
+                    <img
+                      src={`${API_URL}/image/${item.id}?subscription-key=YOUR_SUBSCRIPTION_KEY`}
+                      alt="MongoDB Image"
+                    />
+                  ) : (
+                    <img
+                      src={`${API_URL}/image/${item.id}`}
+                      alt="MongoDB Image"
+                    />
+                  )}
                 </p>
                 <p className="mb-1">
                   <strong>Tags:</strong> {item.tags}
