@@ -8,6 +8,12 @@ const Home = lazy(() => import("./components/Home"));
 const Login = lazy(() => import("./components/admin/Login"));
 const Register = lazy(() => import("./components/admin/Register"));
 const ChangePassword = lazy(() => import("./components/admin/ChangePassword"));
+
+const DocumentList = lazy(() => import("./components/Documents/DocumentList"));
+const DocumentForm = lazy(
+  () => import("./components/Documents/CreateDocument")
+);
+
 const PasswordList = lazy(() => import("./components/password/PasswordList"));
 const PasswordForm = lazy(() => import("./components/password/PasswordForm"));
 const PasswordDetail = lazy(
@@ -82,6 +88,10 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
           <Route path="changepassword" element={<ChangePassword />} />
+
+          <Route path="documentlist" element={<DocumentList />} />
+          <Route path="documentlist/create" element={<DocumentForm />} />
+          <Route path="documentlist/edit/:id" element={<DocumentForm />} />
 
           <Route path="passwordlist" element={<PasswordList />} />
           <Route path="passwordlist/create" element={<PasswordForm />} />
