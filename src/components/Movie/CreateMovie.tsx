@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { createmovie, updateMovie, getMovie } from "../../api/MovieService";
+import {
+  createmovie,
+  updateMovie,
+  getMovie,
+  GetAllTags,
+} from "../../api/MovieService";
 import { useParams, useNavigate } from "react-router-dom";
 
 const CreateMovie = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [tags, setTags] = useState<string[]>([]);
   const [form, setForm] = useState<{
     title: string;
     imageData: string;
-    tags: string[];
+    tags: string;
     userid: string;
     url: string;
   }>({
     title: "",
     imageData: "",
-    tags: [],
+    tags: "",
     url: "",
     userid: localStorage.getItem("token") || "",
   });
@@ -39,6 +45,12 @@ const CreateMovie = () => {
   }, [id]);
 
   useEffect(() => {
+    GetAllTags({
+      userid: localStorage.getItem("token"),
+    }).then((res) => {
+      console.log(res);
+      setTags(res.data);
+    });
     const storedUsername = localStorage.getItem("username");
     if (!storedUsername) {
       navigate("/login");
@@ -138,16 +150,43 @@ const CreateMovie = () => {
         </div>
         <div className="mb-3">
           <label className="form-label">Tags</label>
+
           <input
             type="text"
             name="tags"
             value={form.tags}
             className="form-control"
-            onChange={(e) =>
-              setForm({ ...form, tags: e.target.value.split(", ") })
-            }
+            onChange={(e) => setForm({ ...form, tags: e.target.value })}
             required
           />
+
+          {tags &&
+            tags.length > 0 &&
+            tags.map((item, index) => (
+              <label key={index}>
+                <input
+                  type="checkbox"
+                  value={item}
+                  checked={form.tags.includes(item)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setForm({
+                        ...form,
+                        tags: form.tags ? `${form.tags}, ${item}` : item,
+                      });
+                    } else {
+                      setForm({
+                        ...form,
+                        tags: form.tags
+                          .replace(`, ${item}`, "")
+                          .replace(item, ""),
+                      });
+                    }
+                  }}
+                />
+                {` ${item}`}
+              </label>
+            ))}
         </div>
         <div className="mb-3" hidden>
           <label htmlFor="userid" className="form-label">
@@ -167,7 +206,7 @@ const CreateMovie = () => {
           <button
             type="button"
             className="btn btn-secondary flex-fill me-2"
-            onClick={() => navigate("/documentlist")}
+            onClick={() => navigate("/movielist")}
           >
             {" "}
             Cancel{" "}

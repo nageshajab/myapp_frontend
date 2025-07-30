@@ -9,12 +9,15 @@ interface Movie {
 
   title: string;
   imageData: Uint32Array;
-  tags: string[];
+  tags: string;
+  url: string;
 }
 
 const MovieList = () => {
   const [loading, setLoading] = useState(false);
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchtxt, setSearchtxt] = useState("");
   const [pageNumber, setPgNo] = useState(1);
   const [pagination, setPagination] = useState({
@@ -30,15 +33,17 @@ const MovieList = () => {
       pageNumber,
       searchtxt,
       userid: localStorage.getItem("token"),
+      tags: selectedTags.join(", "),
     });
     setMovies(res.data.movies); // updated to res.data.dates
+    setTags(res.data.tags); // updated to res.data.tags
     setPagination(res.data.pagination);
     setLoading(false);
   };
 
   useEffect(() => {
     fetchMovies();
-  }, [pageNumber, searchtxt]);
+  }, [pageNumber, searchtxt, selectedTags]);
 
   const handlePageChange = (newPageNumber: number) => {
     setPgNo(newPageNumber);
@@ -60,7 +65,7 @@ const MovieList = () => {
     <div className="container mt-4">
       <h2 className="mb-3">Movie List</h2>
       <div className="row mb-3">
-        <div className="col-md-8">
+        <div className="col-md-4">
           <input
             type="text"
             className="form-control"
@@ -69,9 +74,34 @@ const MovieList = () => {
             onChange={(e) => setSearchtxt(e.target.value)}
           />
         </div>
-        <div className="col-md-4">
+        <div className="col-md-7">
+          <div>
+            {tags &&
+              tags.length > 0 &&
+              tags.map((item, index) => (
+                <label key={index}>
+                  <input
+                    type="checkbox"
+                    value={item}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedTags([...selectedTags, item]);
+                      } else {
+                        setSelectedTags(
+                          selectedTags.filter((tag) => tag !== item)
+                        );
+                      }
+                      setPgNo(1);
+                    }}
+                  />
+                  {` ${item}`}
+                </label>
+              ))}
+          </div>
+        </div>
+        <div className="col-md-1">
           <Link to="/movielist/create">
-            <button className="btn btn-primary w-100">Add New</button>
+            <button className="btn btn-primary w-100">Add</button>
           </Link>
         </div>
       </div>
@@ -82,47 +112,89 @@ const MovieList = () => {
           </div>
         </div>
       ) : (
-        <ul className="list-group">
-          {movies.map((item) => (
-            <li
-              key={item.id}
-              className="list-group-item d-flex justify-content-between align-items-center"
-            >
-              <div>
-                <h5 className="mb-1">{item.title}</h5>
-                <p className="mb-1">
-                  {API_URL.includes("myreactappbackendapi") ? (
+        // <ul className="list-group">
+        //   {movies.map((item) => (
+        //     <li
+        //       key={item.id}
+        //       className="list-group-item d-flex justify-content-between align-items-center"
+        //     >
+        //       <div>
+        //         <h5 className="mb-1">{item.title}</h5>
+        //         <p className="mb-1">
+        //           {API_URL.includes("myreactappbackendapi") ? (
+        //             <img
+        //               src={`${API_URL}/image/${item.id}?subscription-key=${subscription_key}`}
+        //               alt="MongoDB Image"
+        //             />
+        //           ) : (
+        //             <img
+        //               src={`${API_URL}/image/${item.id}`}
+        //               alt="MongoDB Image"
+        //             />
+        //           )}
+        //         </p>
+        //         <p className="mb-1">
+        //           <strong>Tags:</strong> {item.tags}
+        //         </p>
+        //       </div>
+        //       <div>
+        //         <Link to={`/movielist/edit/${item.id}`}>
+        //           <button className="btn btn-sm btn-secondary me-2">
+        //             Edit
+        //           </button>
+        //         </Link>
+        //         <button
+        //           className="btn btn-sm btn-danger"
+        //           onClick={() => handleDelete(item.id)}
+        //         >
+        //           Delete
+        //         </button>
+        //       </div>
+        //     </li>
+        //   ))}
+        // </ul>
+        <div className="container mt-4">
+          <div className="row">
+            {movies.map((item) => (
+              <div key={item.id} className="col-md-3 mb-4">
+                <div className="card h-100">
+                  <a href={item.url} target="_blank" rel="noopener noreferrer">
                     <img
-                      src={`${API_URL}/image/${item.id}?subscription-key=${subscription_key}`}
-                      alt="MongoDB Image"
+                      src={
+                        API_URL.includes("myreactappbackendapi")
+                          ? `${API_URL}/image/${item.id}?subscription-key=${subscription_key}`
+                          : `${API_URL}/image/${item.id}`
+                      }
+                      className="card-img-top"
+                      alt={item.title}
+                      style={{ height: "180px", objectFit: "cover" }}
                     />
-                  ) : (
-                    <img
-                      src={`${API_URL}/image/${item.id}`}
-                      alt="MongoDB Image"
-                    />
-                  )}
-                </p>
-                <p className="mb-1">
-                  <strong>Tags:</strong> {item.tags}
-                </p>
+                  </a>
+                  <div
+                    style={{ fontSize: "1rem" }}
+                    className="d-flex justify-content-between align-items-center"
+                  >
+                    <h5 className="mb-0">{item.title}</h5>
+                    <div>
+                      <Link
+                        to={`/movielist/edit/${item.id}`}
+                        className="me-2 text-secondary"
+                      >
+                        <i className="fas fa-edit"></i>
+                      </Link>
+                      <button
+                        className="btn btn-link text-danger p-0"
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        <i className="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div>
-                <Link to={`/movielist/edit/${item.id}`}>
-                  <button className="btn btn-sm btn-secondary me-2">
-                    Edit
-                  </button>
-                </Link>
-                <button
-                  className="btn btn-sm btn-danger"
-                  onClick={() => handleDelete(item.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </div>
+        </div>
       )}
       {pagination.totalPages > 1 && (
         <nav className="mt-4">

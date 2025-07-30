@@ -11,6 +11,7 @@ const api = axios.create({
 });
 export const createmovie = (data: any) => api.post(`/createmovie`, data);
 export const GetMovies = (data: any) => api.post(`/GetMovies`, data);
+export const GetAllTags = (data: any) => api.post(`/GetAllTags`, data);
 export const getMovie = (id: string) => api.get(`/getMovie?id=${id}`);
 export const GetImage = (id: string) => api.get(`/GetImage?id=${id}`);
 export const updateMovie = ( data: any) => api.post(`/updateMovie`, data);
