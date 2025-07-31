@@ -11,12 +11,15 @@ interface Movie {
   imageData: Uint32Array;
   tags: string;
   url: string;
+  isJav: boolean;
 }
 
 const MovieList = () => {
   const [loading, setLoading] = useState(false);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [tags, setTags] = useState<string[]>([]);
+  const [isJav, setIsJav] = useState<boolean>(false);
+  const [showImages, setShowImages] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchtxt, setSearchtxt] = useState("");
   const [pageNumber, setPgNo] = useState(1);
@@ -34,7 +37,9 @@ const MovieList = () => {
       searchtxt,
       userid: localStorage.getItem("token"),
       tags: selectedTags.join(", "),
+      isJav,
     });
+    //console.log(res.data.movies);
     setMovies(res.data.movies); // updated to res.data.dates
     setTags(res.data.tags); // updated to res.data.tags
     setPagination(res.data.pagination);
@@ -43,7 +48,7 @@ const MovieList = () => {
 
   useEffect(() => {
     fetchMovies();
-  }, [pageNumber, searchtxt, selectedTags]);
+  }, [pageNumber, searchtxt, selectedTags, isJav]);
 
   const handlePageChange = (newPageNumber: number) => {
     setPgNo(newPageNumber);
@@ -68,12 +73,39 @@ const MovieList = () => {
         <div className="col-md-4">
           <input
             type="text"
-            className="form-control"
+            className="form-control form-control-sm" // 'form-control-sm' reduces height
             placeholder="Search by title"
             value={searchtxt}
             onChange={(e) => setSearchtxt(e.target.value)}
           />
+          <div>
+            <div className="form-check mt-2">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="chkIsJav"
+                onChange={(e) => setIsJav(e.target.checked)}
+              />
+              <label className="form-check-label" htmlFor="chkIsJav">
+                {" "}
+                Is Jav{" "}
+              </label>
+            </div>
+            <div className="form-check mt-2">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="chkShowImages"
+                onChange={(e) => setShowImages(e.target.checked)}
+              />
+              <label className="form-check-label" htmlFor="chkShowImages">
+                {" "}
+                Show Images{" "}
+              </label>
+            </div>
+          </div>
         </div>
+
         <div className="col-md-7">
           <div>
             {tags &&
@@ -112,86 +144,65 @@ const MovieList = () => {
           </div>
         </div>
       ) : (
-        // <ul className="list-group">
-        //   {movies.map((item) => (
-        //     <li
-        //       key={item.id}
-        //       className="list-group-item d-flex justify-content-between align-items-center"
-        //     >
-        //       <div>
-        //         <h5 className="mb-1">{item.title}</h5>
-        //         <p className="mb-1">
-        //           {API_URL.includes("myreactappbackendapi") ? (
-        //             <img
-        //               src={`${API_URL}/image/${item.id}?subscription-key=${subscription_key}`}
-        //               alt="MongoDB Image"
-        //             />
-        //           ) : (
-        //             <img
-        //               src={`${API_URL}/image/${item.id}`}
-        //               alt="MongoDB Image"
-        //             />
-        //           )}
-        //         </p>
-        //         <p className="mb-1">
-        //           <strong>Tags:</strong> {item.tags}
-        //         </p>
-        //       </div>
-        //       <div>
-        //         <Link to={`/movielist/edit/${item.id}`}>
-        //           <button className="btn btn-sm btn-secondary me-2">
-        //             Edit
-        //           </button>
-        //         </Link>
-        //         <button
-        //           className="btn btn-sm btn-danger"
-        //           onClick={() => handleDelete(item.id)}
-        //         >
-        //           Delete
-        //         </button>
-        //       </div>
-        //     </li>
-        //   ))}
-        // </ul>
         <div className="container mt-4">
           <div className="row">
             {movies.map((item) => (
-              <div key={item.id} className="col-md-3 mb-4">
-                <div className="card h-100">
-                  <a href={item.url} target="_blank" rel="noopener noreferrer">
-                    <img
-                      src={
-                        API_URL.includes("myreactappbackendapi")
-                          ? `${API_URL}/image/${item.id}?subscription-key=${subscription_key}`
-                          : `${API_URL}/image/${item.id}`
-                      }
-                      className="card-img-top"
-                      alt={item.title}
-                      style={{ height: "180px", objectFit: "cover" }}
-                    />
-                  </a>
-                  <div
-                    style={{ fontSize: "1rem" }}
-                    className="d-flex justify-content-between align-items-center"
-                  >
-                    <h5 className="mb-0">{item.title}</h5>
-                    <div>
-                      <Link
-                        to={`/movielist/edit/${item.id}`}
-                        className="me-2 text-secondary"
+              <>
+                {/* {console.log(item.id)} */}
+                <div key={item.id} className="col-md-2 mb-4">
+                  <div className="card h-100">
+                    {showImages ? (
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
-                        <i className="fas fa-edit"></i>
-                      </Link>
-                      <button
-                        className="btn btn-link text-danger p-0"
-                        onClick={() => handleDelete(item.id)}
+                        <img
+                          src={
+                            API_URL.includes("myreactappbackendapi")
+                              ? `${API_URL}/image/${item.id}?subscription-key=${subscription_key}`
+                              : `${API_URL}/image/${item.id}`
+                          }
+                          className="card-img-top"
+                          alt={item.title}
+                          style={{ height: "180px", objectFit: "cover" }}
+                        />
+                      </a>
+                    ) : (
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
-                        <i className="fas fa-trash-alt"></i>
-                      </button>
+                        Open
+                      </a>
+                    )}
+
+                    <div
+                      style={{ fontSize: "1rem" }}
+                      className="d-flex justify-content-between align-items-center"
+                    >
+                      <h5 className="mb-0" style={{ fontSize: "0.75rem" }}>
+                        {item.title}
+                      </h5>
+                      <div>
+                        <Link
+                          to={`/movielist/edit/${item.id}`}
+                          className="me-2 text-secondary"
+                        >
+                          <i className="fas fa-edit"></i>
+                        </Link>
+                        <button
+                          className="btn btn-link text-danger p-0"
+                          onClick={() => handleDelete(item.id)}
+                        >
+                          <i className="fas fa-trash-alt"></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </>
             ))}
           </div>
         </div>
