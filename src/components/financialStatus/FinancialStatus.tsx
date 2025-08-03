@@ -37,6 +37,10 @@ const FinancialStatus = () => {
     pensionContribution: 0,
     userid: localStorage.getItem("token") || "",
   });
+  const [totalBankBalance, setTotalBankBalance] = useState(0);
+  const [stocksCurrentVal, setstocksCurrentVal] = useState(0);
+  const [mfCurrentVal, setmfCurrentVal] = useState(0);
+  const [pfTotalVal, setpfTotalVal] = useState(0);
 
   let monthlyexpense = 32625 + 17318 + 533 + 2000 + 3000 + 700 + 1000 + 500;
   useEffect(() => {
@@ -125,15 +129,32 @@ const FinancialStatus = () => {
                 <ExpenseSummary monthlyexpense={monthlyexpense} />
               </div>
               <div className="col-md-8">
-                <BankSummary form={form} handleChange={handleChange} />
+                <BankSummary
+                  form={form}
+                  handleChange={handleChange}
+                  totalBankBalance={totalBankBalance}
+                  setTotalBankBalance={setTotalBankBalance}
+                />
               </div>
             </div>
             <div className="row">
               <div className="col-md-6">
-                <StocksMfSummary form={form} handleChange={handleChange} />
+                <StocksMfSummary
+                  form={form}
+                  handleChange={handleChange}
+                  //mfCurrentVal={mfCurrentVal}
+                  setmfCurrentVal={setmfCurrentVal}
+                  //stocksCurrentVal={stocksCurrentVal}
+                  setstocksCurrentVal={setstocksCurrentVal}
+                />
               </div>
               <div className="col-md-6">
-                <PFSummary form={form} handleChange={handleChange} />
+                <PFSummary
+                  form={form}
+                  handleChange={handleChange}
+                  pfTotalVal={pfTotalVal}
+                  setpfTotalVal={setpfTotalVal}
+                />
               </div>
             </div>
             <div className="row">
@@ -143,7 +164,17 @@ const FinancialStatus = () => {
                   Save
                 </button>
               </div>
-              <div className="col-md-6">All {}</div>
+              <div className="col-md-6 bg-warning text-white fw-bold">
+                <h1>
+                  All{" "}
+                  {(
+                    Number(totalBankBalance) +
+                    Number(stocksCurrentVal) +
+                    Number(mfCurrentVal) +
+                    Number(pfTotalVal)
+                  ).toLocaleString("en-IN")}
+                </h1>
+              </div>
             </div>
           </form>
         </div>

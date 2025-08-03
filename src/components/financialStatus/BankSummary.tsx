@@ -4,11 +4,19 @@ import type { Item } from "./types";
 interface BankSummaryProps {
   form: Item;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  totalBankBalance: number;
+  setTotalBankBalance: (totalBankBalance: number) => void;
 }
-const BankSummary: React.FC<BankSummaryProps> = ({ form, handleChange }) => {
+
+const BankSummary: React.FC<BankSummaryProps> = ({
+  form,
+  handleChange,
+  totalBankBalance,
+  setTotalBankBalance,
+}) => {
   const [totalsavings, settotalsavings] = useState(0);
   const [totalfd, settotalfd] = useState(0);
-  const [totalBankBalance, SetTotalBankBalance] = useState(0);
+
   const [averageInBank, setAverageInBank] = useState(0);
   const [iciciTotal, setIciciTotal] = useState(0);
   const [hdfcTotal, sethdfcTotal] = useState(0);
@@ -49,7 +57,7 @@ const BankSummary: React.FC<BankSummaryProps> = ({ form, handleChange }) => {
   }, [form.ICICIFdAmount, form.HdfcBankFdAmount, form.KotakBankFdAmount]);
 
   useEffect(() => {
-    SetTotalBankBalance(Number(totalsavings) + Number(totalfd));
+    setTotalBankBalance(Number(totalsavings) + Number(totalfd));
   }, [totalsavings, totalfd]);
 
   useEffect(() => {

@@ -1,15 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type { Item } from "./types";
 
 interface StocksMfSummaryProps {
   form: Item;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  //mfCurrentVal: number;
+  setmfCurrentVal: (mfCurrentVal: number) => void;
+  //stocksCurrentVal: number;
+  setstocksCurrentVal: (stocksCurrentVal: number) => void;
 }
 
 const StocksSummary: React.FC<StocksMfSummaryProps> = ({
   form,
   handleChange,
+  //mfCurrentVal,
+  setmfCurrentVal,
+  //stocksCurrentVal,
+  setstocksCurrentVal,
 }) => {
+  useEffect(() => {
+    setmfCurrentVal(Number(form.mutualFundsCurrentValue));
+  }, [form.mutualFundsCurrentValue]);
+
+  useEffect(() => {
+    setstocksCurrentVal(Number(form.stocksCurrentValue));
+  }, [form.stocksCurrentValue]);
+
   return (
     <table className="table table-bordered">
       <thead>

@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type { Item } from "./types";
 
 interface PFSummaryProps {
   form: Item;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  pfTotalVal: number;
+  setpfTotalVal: (pfTotalVal: number) => void;
 }
 //const BankSummary: React.FC<BankSummaryProps> = ({ form, handleChange }) => {
-const PFSummary: React.FC<PFSummaryProps> = ({ form, handleChange }) => {
+const PFSummary: React.FC<PFSummaryProps> = ({
+  form,
+  handleChange,
+  pfTotalVal,
+  setpfTotalVal,
+}) => {
+  useEffect(() => {
+    setpfTotalVal(
+      Number(form.PfEmployeeShare) +
+        Number(form.PfEmployerShare) +
+        Number(form.pensionContribution)
+    );
+  }, [form.PfEmployeeShare, form.PfEmployerShare, form.pensionContribution]);
   return (
     <div>
       <table>
@@ -52,11 +66,7 @@ const PFSummary: React.FC<PFSummaryProps> = ({ form, handleChange }) => {
           </tr>
           <tr>
             <td>Total PF</td>
-            <td>
-              {Number(form.PfEmployeeShare) +
-                Number(form.PfEmployerShare) +
-                Number(form.pensionContribution)}{" "}
-            </td>
+            <td>{pfTotalVal} </td>
           </tr>
         </tbody>
       </table>
