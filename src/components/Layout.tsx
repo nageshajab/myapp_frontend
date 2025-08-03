@@ -56,11 +56,7 @@ const Layout = () => {
                   Documents
                 </Link>
               </li>
-              {/* <li className="nav-item">
-                <Link className="nav-link" to="/movielist">
-                  Movies
-                </Link>
-              </li> */}
+
               <li className="nav-item">
                 <Link className="nav-link" to="/passwordlist">
                   Passwords
@@ -72,6 +68,14 @@ const Layout = () => {
                 </Link>
               </li>
               <NavDropdown title="Finance" id="finance-dropdown">
+                {token === "1fcca2c1-ffda-4cc5-b5bd-8959dec8d5af" && (
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/financelist">
+                      Financial Status
+                    </Link>
+                  </li>
+                )}
+
                 <NavDropdown title="Khata" id="khata-dropdown">
                   <NavDropdown.Item as={Link} to="/khatalist">
                     Khata Book

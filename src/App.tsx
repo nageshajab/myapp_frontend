@@ -27,6 +27,9 @@ const CreateKhataEntryForm = lazy(
 const KhataList = lazy(() => import("./components/KhataEntry/KhataList"));
 const KhataReport = lazy(() => import("./components/KhataEntry/KhataReport"));
 
+const FinancialStatus = lazy(
+  () => import("./components/financialStatus/FinancialStatus")
+);
 const MovieList = lazy(() => import("./components/Movie/MovieList"));
 const MovieForm = lazy(() => import("./components/Movie/CreateMovie"));
 
@@ -109,6 +112,7 @@ const App = () => {
           <Route path="dates/create" element={<DateForm />} />
           <Route path="dates/edit/:id" element={<DateForm />} />
 
+          <Route path="financelist" element={<FinancialStatus />} />
           <Route path="khatalist" element={<KhataList />} />
           <Route path="khata/create" element={<CreateKhataEntryForm />} />
           <Route path="khata/edit/:id" element={<CreateKhataEntryForm />} />
