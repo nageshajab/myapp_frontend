@@ -10,16 +10,22 @@ import { useParams, useNavigate } from "react-router-dom";
 const CreateDocumentForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  //variables
   const [form, setForm] = useState<{
     title: string;
     url: string;
     tags: string[];
     userid: string;
+    file: string;
+    fileName: string;
   }>({
     title: "",
     url: "",
     tags: [],
     userid: localStorage.getItem("token") || "",
+    file: "",
+    fileName: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -46,24 +52,37 @@ const CreateDocumentForm = () => {
     }
   }, [navigate]);
 
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   if (name === "tags") {
-  //     setForm({ ...form, tags: value.split(", ") });
-  //   } else {
-  //     setForm({ ...form, [name]: value });
-  //   }
-  // };
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result as string;
+        const base64String = result.split(",")[1];
+        setForm({
+          ...form,
+          file: base64String,
+          fileName: file.name, // ✅ Store the filename
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+      const documentData = {
+        ...form,
+        fileData: form.file,
+      };
+
       if (id) {
-        await DocumentUpdate(form);
+        await DocumentUpdate(documentData);
         toast.success("Document updated successfully");
       } else {
-        await DocumentCreate(form);
+        await DocumentCreate(documentData);
         toast.success("Document created successfully");
       }
       navigate("/documentlist");
@@ -101,6 +120,10 @@ const CreateDocumentForm = () => {
             onChange={(e) => setForm({ ...form, url: e.target.value })}
             className="form-control"
           />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Upload file</label>
+          <input type="file" onChange={handleFileChange} />
         </div>
         <div className="mb-3">
           <label className="form-label">Tags</label>

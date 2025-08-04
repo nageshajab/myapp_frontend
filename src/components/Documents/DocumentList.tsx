@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { DocumentDelete, GetDocuments } from "../../api/DocumentsService";
 import { Link } from "react-router-dom";
+import { API_URL } from "../../../config";
+import { subscription_key } from "../../../config";
 
 interface DocumentItem {
   id: string;
@@ -89,10 +91,23 @@ const DocumentList = () => {
               <div>
                 <h5 className="mb-1">{item.title}</h5>
                 <p className="mb-1">
-                  <a target="_blank" href={item.url}>
-                    {" "}
-                    Open
-                  </a>
+                  {item.url ? (
+                    <a target="_blank" href={item.url}>
+                      Open
+                    </a>
+                  ) : (
+                    <a
+                      href={
+                        API_URL.includes("myreactappbackendapi")
+                          ? `${API_URL}/document/${item.id}?subscription-key=${subscription_key}`
+                          : `${API_URL}/document/${item.id}`
+                      }
+                      className="card-img-top"
+                      style={{ height: "180px", objectFit: "cover" }}
+                    >
+                      Open direct
+                    </a>
+                  )}
                 </p>
                 <p className="mb-1">
                   <strong>Tags:</strong> {item.tags}
