@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import html2canvas from "html2canvas";
+import "../../App.css";
+
 import {
   updateFinancialStatus,
   GetFinancialStatus,
@@ -12,6 +15,9 @@ import { toast } from "react-toastify";
 import LineChartExample from "./PieChart";
 
 const FinancialStatus = () => {
+  const componentRef = useRef<HTMLDivElement>(null);
+  const [isRendered, setIsRendered] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     Id: "",
@@ -38,15 +44,34 @@ const FinancialStatus = () => {
     pensionContribution: 0,
     userid: localStorage.getItem("token") || "",
   });
-  const [totalBankBalance, setTotalBankBalance] = useState(0);
+  const [totalsavings, settotalsavings] = useState(0);
+  const [totalFd, setTotalFd] = useState(0);
   const [stocksCurrentVal, setstocksCurrentVal] = useState(0);
   const [mfCurrentVal, setmfCurrentVal] = useState(0);
   const [pfTotalVal, setpfTotalVal] = useState(0);
 
   let monthlyexpense = 32625 + 17318 + 533 + 2000 + 3000 + 700 + 1000 + 500;
   useEffect(() => {
+    setIsRendered(true);
+  }, []);
+
+  useEffect(() => {
     fetchData();
   }, []);
+
+  const handlePrint = () => {
+    if (componentRef.current) {
+      html2canvas(componentRef.current).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.href = imgData;
+        link.download = "component-image.png";
+        link.click();
+      });
+    } else {
+      console.error("Component ref is null");
+    }
+  };
 
   const fetchData = async () => {
     setLoading(true);
@@ -99,7 +124,7 @@ const FinancialStatus = () => {
     }
   };
   return (
-    <div className="container mt-4">
+    <div className="container mt-4" ref={componentRef}>
       <div className="row">
         <div className="col-md-8">
           <h2 className="mb-3 ">Financial Status</h2>
@@ -126,30 +151,32 @@ const FinancialStatus = () => {
             />
 
             <div className="row">
-              <div className="col-md-4">
+              <div className="col-md-4 component-border ">
                 <ExpenseSummary monthlyexpense={monthlyexpense} />
               </div>
-              <div className="col-md-8">
+              <div className="col-md-1"></div>
+              <div className="col-md-7  component-border">
                 <BankSummary
                   form={form}
                   handleChange={handleChange}
-                  totalBankBalance={totalBankBalance}
-                  setTotalBankBalance={setTotalBankBalance}
+                  totalsavings={totalsavings}
+                  settotalsavings={settotalsavings}
+                  totalFd={totalFd}
+                  settotalFd={setTotalFd}
                 />
               </div>
             </div>
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-md-4 component-border">
                 <StocksMfSummary
                   form={form}
                   handleChange={handleChange}
-                  //mfCurrentVal={mfCurrentVal}
                   setmfCurrentVal={setmfCurrentVal}
-                  //stocksCurrentVal={stocksCurrentVal}
                   setstocksCurrentVal={setstocksCurrentVal}
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-md-1"></div>
+              <div className="col-md-6 component-border">
                 <PFSummary
                   form={form}
                   handleChange={handleChange}
@@ -159,32 +186,40 @@ const FinancialStatus = () => {
               </div>
             </div>
             <div className="row">
-              <div className="col-md-12">
-                <LineChartExample />
-              </div>
-            </div>
-            <div className="row">
               <div className="col-md-6">
                 {" "}
                 <button type="submit" className="btn btn-primary w-100">
                   Save
                 </button>
               </div>
-              <div className="col-md-6 bg-warning text-white fw-bold">
-                <h1>
+              <div className="col-md-6 bg-warning text-white fw-bold rounded">
+                <h4>
                   All{" "}
                   {(
-                    Number(totalBankBalance) +
+                    Number(totalsavings) +
+                    Number(totalFd) +
                     Number(stocksCurrentVal) +
                     Number(mfCurrentVal) +
                     Number(pfTotalVal)
                   ).toLocaleString("en-IN")}
-                </h1>
+                </h4>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-12 mt-4 component-border">
+                <LineChartExample
+                  totalsavings={totalsavings}
+                  totalFd={totalFd}
+                  totalPf={pfTotalVal}
+                  mfCurrentVal={mfCurrentVal}
+                  stocksCurrentVal={stocksCurrentVal}
+                />
               </div>
             </div>
           </form>
         </div>
       )}
+      <button onClick={handlePrint}>Print Component</button>
     </div>
   );
 };

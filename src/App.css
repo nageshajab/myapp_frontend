@@ -1,0 +1,8 @@
+.component-border {
+  border: 2px solid #666; /* Thicker border with a darker color */
+  padding: 10px;
+  border-radius: 5px; /* Add a slight curve to the corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  margin-bottom: 20px; /* Add some space between components */
+}
+

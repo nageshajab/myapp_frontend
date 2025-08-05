@@ -4,23 +4,25 @@ import type { Item } from "./types";
 interface BankSummaryProps {
   form: Item;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  totalBankBalance: number;
-  setTotalBankBalance: (totalBankBalance: number) => void;
+  totalsavings: number;
+  settotalsavings: (totalBankSavings: number) => void;
+  totalFd: number;
+  settotalFd: (totalFd: number) => void;
 }
 
 const BankSummary: React.FC<BankSummaryProps> = ({
   form,
   handleChange,
-  totalBankBalance,
-  setTotalBankBalance,
+  totalsavings,
+  settotalsavings,
+  totalFd,
+  settotalFd,
 }) => {
-  const [totalsavings, settotalsavings] = useState(0);
-  const [totalfd, settotalfd] = useState(0);
-
   const [averageInBank, setAverageInBank] = useState(0);
   const [iciciTotal, setIciciTotal] = useState(0);
   const [hdfcTotal, sethdfcTotal] = useState(0);
   const [kotakTotal, setkotakTotal] = useState(0);
+  const [totalBankBalance, setTotalBankBalance] = useState(0);
 
   //calculate totalsavings
   useEffect(() => {
@@ -49,7 +51,7 @@ const BankSummary: React.FC<BankSummaryProps> = ({
 
   //calculate totalfd
   useEffect(() => {
-    settotalfd(
+    settotalFd(
       Number(form.ICICIFdAmount) +
         Number(form.HdfcBankFdAmount) +
         Number(form.KotakBankFdAmount)
@@ -57,8 +59,8 @@ const BankSummary: React.FC<BankSummaryProps> = ({
   }, [form.ICICIFdAmount, form.HdfcBankFdAmount, form.KotakBankFdAmount]);
 
   useEffect(() => {
-    setTotalBankBalance(Number(totalsavings) + Number(totalfd));
-  }, [totalsavings, totalfd]);
+    setTotalBankBalance(Number(totalsavings) + Number(totalFd));
+  }, [totalsavings, totalFd]);
 
   useEffect(() => {
     setAverageInBank(Math.round(Number(totalBankBalance) / 3));
@@ -162,7 +164,7 @@ const BankSummary: React.FC<BankSummaryProps> = ({
         <tr>
           <td>Total</td>
           <td>{totalsavings}</td>
-          <td>{totalfd}</td>
+          <td>{totalFd}</td>
           <td>{totalBankBalance}</td>
           <td>{}</td>
         </tr>
@@ -172,7 +174,7 @@ const BankSummary: React.FC<BankSummaryProps> = ({
           </td>
         </tr>
         <tr>
-          <td colSpan={5}>Need FD&nbsp; {692112 - Number(totalfd)}</td>
+          <td colSpan={5}>Need FD&nbsp; {692112 - Number(totalFd)}</td>
         </tr>
       </tbody>
     </table>
