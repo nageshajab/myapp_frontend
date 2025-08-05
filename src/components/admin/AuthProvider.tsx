@@ -6,5 +6,5 @@ const msalInstance = new PublicClientApplication(msalConfig);
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   return <MsalProvider instance={msalInstance}>{children}</MsalProvider>;
 };
-
+//1
 export default AuthProvider;
