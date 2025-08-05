@@ -9,6 +9,7 @@ import StocksMfSummary from "./StocksSummary";
 
 import PFSummary from "./PFSummary";
 import { toast } from "react-toastify";
+import LineChartExample from "./PieChart";
 
 const FinancialStatus = () => {
   const [loading, setLoading] = useState(false);
@@ -155,6 +156,11 @@ const FinancialStatus = () => {
                   pfTotalVal={pfTotalVal}
                   setpfTotalVal={setpfTotalVal}
                 />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-12">
+                <LineChartExample />
               </div>
             </div>
             <div className="row">
