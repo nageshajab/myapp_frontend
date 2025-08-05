@@ -16,7 +16,6 @@ import LineChartExample from "./PieChart";
 
 const FinancialStatus = () => {
   const componentRef = useRef<HTMLDivElement>(null);
-  const [isRendered, setIsRendered] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
@@ -51,10 +50,6 @@ const FinancialStatus = () => {
   const [pfTotalVal, setpfTotalVal] = useState(0);
 
   let monthlyexpense = 32625 + 17318 + 533 + 2000 + 3000 + 700 + 1000 + 500;
-  useEffect(() => {
-    setIsRendered(true);
-  }, []);
-
   useEffect(() => {
     fetchData();
   }, []);
