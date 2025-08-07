@@ -106,7 +106,7 @@ const TenantList = () => {
               {tenants.map((item) => (
                 <tr key={item.id}>
                   <td>{item.tenantName}</td>
-                  <td>{item.deposit}</td>
+                  <td>{item.deposit.toLocaleString("en-IN")}</td>
                   <td>
                     {new Date(item.startDate).toLocaleDateString("en-GB")}
                   </td>
@@ -119,7 +119,7 @@ const TenantList = () => {
                       : "N/A"}
                   </td>
                   <td>{item.description}</td>
-                  <td>{item.rent}</td>
+                  <td>{item.rent.toLocaleString("en-IN")}</td>
                   <td>{item.mobile}</td>
                   <td>
                     <Link to={`/tenant/edit/${item.id}`}>

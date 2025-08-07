@@ -169,8 +169,8 @@ const RentList = () => {
                 <tr key={item.id}>
                   <td>{item.tenantName}</td>
                   <td>{item.mseb}</td>
-                  <td>{item.paidAmount}</td>
-                  <td>{item.remainingAmount}</td>
+                  <td>{item.paidAmount.toLocaleString("en-IN")}</td>
+                  <td>{item.remainingAmount.toLocaleString("en-IN")}</td>
                   <td>{new Date(item.date).toLocaleDateString("en-GB")}</td>
                   <td>
                     <Link to={`/rent/edit/${item.id}`}>

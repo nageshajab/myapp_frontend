@@ -109,7 +109,7 @@ const TransactionsList = () => {
               <div>
                 <h5 className="mb-1">{item.title}</h5>
                 <p className="mb-1">{item.description}</p>
-                <p className="mb-1">{item.amount}</p>
+                <p className="mb-1">{item.amount.toLocaleString("en-IN")}</p>
                 <p className="mb-1">
                   <strong>Date:</strong>{" "}
                   {new Date(item.date).toLocaleDateString("en-GB")}

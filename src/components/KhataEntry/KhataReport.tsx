@@ -83,7 +83,8 @@ const KhataList = () => {
               <h1> {khataentries.personName}</h1>
               <br></br>
               <h5>
-                Total Udhari:<b> {khataentries.amount}</b>
+                Total Udhari:
+                <b> {khataentries.amount.toLocaleString("en-IN")}</b>
               </h5>
             </>
           )}
