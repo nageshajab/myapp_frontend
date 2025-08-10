@@ -60,7 +60,7 @@ const DateList = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-3">Saved Dates</h2>
+      <h2 className="mb-3">Dates</h2>
       <div className="row mb-3">
         <div className="col-md-8">
           <input
@@ -94,7 +94,11 @@ const DateList = () => {
                 <h5 className="mb-1">{item.title}</h5>
                 <p className="mb-1">{item.description}</p>
                 <p className="mb-1">
-                  <strong>Date:</strong> {item.date}
+                  <strong>Date:</strong>{" "}
+                  {new Date(item.date)
+                    .toLocaleDateString("en-GB")
+                    .split("/")
+                    .join("-")}
                 </p>
                 <p className="mb-1">
                   <strong>Duration:</strong> {item.duration}

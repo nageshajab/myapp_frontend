@@ -24,14 +24,15 @@ const DateForm = lazy(() => import("./components/Dates/CreateDateForm"));
 const CreateKhataEntryForm = lazy(
   () => import("./components/KhataEntry/CreateKhataEntryForm")
 );
+
+const EditEvent = lazy(() => import("./components/events/EditEvent"));
+
 const KhataList = lazy(() => import("./components/KhataEntry/KhataList"));
 const KhataReport = lazy(() => import("./components/KhataEntry/KhataReport"));
 
 const FinancialStatus = lazy(
   () => import("./components/financialStatus/FinancialStatus")
 );
-const MovieList = lazy(() => import("./components/Movie/MovieList"));
-const MovieForm = lazy(() => import("./components/Movie/CreateMovie"));
 
 const CreateTaskEntryForm = lazy(
   () => import("./components/Tasks/CreateTaskEntryForm")
@@ -99,10 +100,6 @@ const App = () => {
           <Route path="documentlist/create" element={<DocumentForm />} />
           <Route path="documentlist/edit/:id" element={<DocumentForm />} />
 
-          <Route path="movielist" element={<MovieList />} />
-          <Route path="movielist/create" element={<MovieForm />} />
-          <Route path="movielist/edit/:id" element={<MovieForm />} />
-
           <Route path="passwordlist" element={<PasswordList />} />
           <Route path="passwordlist/create" element={<PasswordForm />} />
           <Route path="passwordlist/edit/:id" element={<PasswordForm />} />
@@ -111,6 +108,9 @@ const App = () => {
           <Route path="datelist" element={<DateList />} />
           <Route path="dates/create" element={<DateForm />} />
           <Route path="dates/edit/:id" element={<DateForm />} />
+
+          <Route path="events/create" element={<EditEvent />} />
+          <Route path="events/edit/:id" element={<EditEvent />} />
 
           <Route path="financelist" element={<FinancialStatus />} />
           <Route path="khatalist" element={<KhataList />} />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { createDate, updateDate, getDate } from "../../api/DatesService";
+import { createEvent, updateEvent, EventGet } from "../../api/EventsService";
 import { useParams, useNavigate } from "react-router-dom";
 
 const CreateDateForm = () => {
@@ -10,9 +10,7 @@ const CreateDateForm = () => {
     title: "",
     description: "",
     date: "",
-    duration: "",
-    isRecurring: false,
-    frequency: "Daily",
+    MarkFinished: false,
     userid: localStorage.getItem("token") || "",
   });
   const [loading, setLoading] = useState(false);
@@ -20,8 +18,11 @@ const CreateDateForm = () => {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      getDate(id)
+      EventGet(id)
         .then((res) => {
+          const date = new Date(res.data.date);
+          const formattedDate = date.toISOString().split("T")[0];
+          res.data.date = formattedDate;
           setForm(res.data);
           setLoading(false);
         })
@@ -56,10 +57,10 @@ const CreateDateForm = () => {
 
     try {
       if (id) {
-        await updateDate(form);
+        await updateEvent(form);
         toast.success("Date updated successfully");
       } else {
-        await createDate(form);
+        await createEvent(form);
         toast.success("Date created successfully");
       }
       navigate("/datelist");
@@ -123,47 +124,22 @@ const CreateDateForm = () => {
             disabled
           />
         </div>
-        <div className="mb-3">
-          <label className="form-label">Duration</label>
-          <input
-            type="text"
-            name="duration"
-            value={form.duration}
-            onChange={handleChange}
-            className="form-control"
-          />
-        </div>
+
         <div className="form-check mb-3">
           <input
             type="checkbox"
-            name="isRecurring"
-            checked={form.isRecurring}
+            name="markFinished"
+            checked={form.MarkFinished}
             onChange={handleChange}
             className="form-check-input"
           />
-          <label className="form-check-label">Recurring Event</label>
+          <label className="form-check-label">Mark Finished</label>
         </div>
-        {form.isRecurring && (
-          <div className="mb-3">
-            <label className="form-label">Frequency</label>
-            <select
-              name="frequency"
-              value={form.frequency}
-              onChange={handleChange}
-              className="form-select"
-            >
-              <option>Daily</option>
-              <option>Weekly</option>
-              <option>Monthly</option>
-              <option>Custom</option>
-            </select>
-          </div>
-        )}
         <div className="d-grid gap-2 d-md-flex justify-content-md-end">
           <button
             type="button"
             className="btn btn-secondary flex-fill me-2"
-            onClick={() => navigate("/datelist")}
+            onClick={() => navigate("/home")}
           >
             {" "}
             Cancel{" "}
