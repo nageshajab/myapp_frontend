@@ -7,6 +7,7 @@ interface EventItem {
   title: string;
   description: string;
   date: string;
+  duration: string;
 }
 
 const Home = () => {
@@ -20,6 +21,7 @@ const Home = () => {
   const [events, setEvents] = useState<EventItem[]>([]);
   const [searchtxt, setSearchtxt] = useState("");
   const [pageNumber, setPgNo] = useState(1);
+  const [showAll, setShowAll] = useState(false);
   const [pagination, setPagination] = useState({
     pageNumber: 1,
     pageSize: 10,
@@ -33,6 +35,7 @@ const Home = () => {
       pageNumber,
       searchtxt,
       userid: localStorage.getItem("token"),
+      showAll,
     });
     setEvents(res.data.events); // updated to res.data.dates
     setPagination(res.data.pagination);
@@ -41,7 +44,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchEvents();
-  }, [pageNumber, searchtxt]);
+  }, [pageNumber, searchtxt, showAll]);
 
   const handlePageChange = (newPageNumber: number) => {
     setPgNo(newPageNumber);
@@ -63,15 +66,32 @@ const Home = () => {
       <h2 className="mb-3">Events Dashboard</h2>
       <div className="row mb-3">
         <div className="col-md-8">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search by title"
-            value={searchtxt}
-            onChange={(e) => setSearchtxt(e.target.value)}
-          />
+          <div className="input-group">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search by title"
+              value={searchtxt}
+              onChange={(e) => setSearchtxt(e.target.value)}
+            />
+            <div className="input-group-append ms-2">
+              <div className="form-check">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  id="showAll"
+                  checked={showAll}
+                  onChange={(e) => setShowAll(e.target.checked)}
+                />
+                <label className="form-check-label" htmlFor="showAll">
+                  Show All
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
       {loading ? (
         <div className="text-center my-5">
           <div className="spinner-border text-primary" role="status">
@@ -91,7 +111,15 @@ const Home = () => {
                       className="d-flex justify-content-between align-items-center"
                     >
                       <h5 className="mb-0" style={{ fontSize: "1rem" }}>
-                        {item.title}
+                        <div>{item.title}</div>
+                        {new Date(item.date)
+                          .toLocaleDateString("en-GB", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          })
+                          .toUpperCase()}
+                        <div> {item.duration}</div>
                       </h5>
                       <div>
                         <Link
