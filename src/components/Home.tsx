@@ -90,6 +90,11 @@ const Home = () => {
             </div>
           </div>
         </div>
+        <div className="col-md-4">
+          <Link to="/events/create">
+            <button className="btn btn-primary w-100">Add New</button>
+          </Link>
+        </div>
       </div>
 
       {loading ? (
