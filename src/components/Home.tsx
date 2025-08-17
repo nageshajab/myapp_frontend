@@ -103,6 +103,10 @@ const Home = () => {
             <span className="visually-hidden">Loading...</span>
           </div>
         </div>
+      ) : events.length === 0 ? (
+        <div className="text-center my-5">
+          <h5>No data available</h5>
+        </div>
       ) : (
         <div className="container mt-4">
           <div className="row">

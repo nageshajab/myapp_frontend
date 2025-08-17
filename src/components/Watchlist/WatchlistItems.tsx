@@ -185,40 +185,38 @@ const WatchlistItems = () => {
           </div>
         </div>
       ) : (
-        <ul className="list-group">
+        <div className="row">
           {movieentries.map((item) => (
-            <li
-              key={item.id}
-              className="list-group-item d-flex justify-content-between align-items-center"
-            >
-              <div>
-                <h5 className="mb-1">{item.title}</h5>
-                <p className="mb-1">Status: {getStatus(item.status)}</p>
-                <p className="mb-1">Type: {getType(item.type)}</p>
-                <p className="mb-1">Language: {getLanguage(item.language)}</p>
-                <p className="mb-1">Genre: {getGenre(item.genre)}</p>
-                <p className="mb-1">OTT: {getOtt(item.ott)}</p>
-                <p className="mb-1">
-                  <strong>Date:</strong>{" "}
-                  {new Date(item.date).toLocaleDateString("en-GB")}
-                </p>
-              </div>
-              <div>
-                <Link to={`/watchlistitems/edit/${item.id}`}>
-                  <button className="btn btn-sm btn-secondary me-2">
-                    Edit
+            <div key={item.id} className="col-md-3 mb-4">
+              <div className="card h-100 shadow-sm">
+                <div className="card-body">
+                  <h5 className="card-title">{item.title}</h5>
+                  <p className="card-text">
+                    {getStatus(item.status)},{getType(item.type)},
+                    {getLanguage(item.language)},{getGenre(item.genre)},
+                    {getOtt(item.ott)}{" "}
+                    <img
+                      src={`/icons/${getOtt(item.ott)}.png`}
+                      alt={getOtt(item.ott)}
+                      style={{ width: "34px", height: "24px" }}
+                    />
+                  </p>
+                </div>
+                <div className="card-footer d-flex justify-content-between">
+                  <Link to={`/watchlistitems/edit/${item.id}`}>
+                    <button className="btn btn-sm btn-secondary">Edit</button>
+                  </Link>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => handleDelete(item.id)}
+                  >
+                    Delete
                   </button>
-                </Link>
-                <button
-                  className="btn btn-sm btn-danger"
-                  onClick={() => handleDelete(item.id)}
-                >
-                  Delete
-                </button>
+                </div>
               </div>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
 
       {pagination.totalPages > 1 && (

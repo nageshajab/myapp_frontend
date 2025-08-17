@@ -88,7 +88,7 @@ export function getOtt(ott:number){
         case 0:
             return "Netflix";
         case 1:
-            return "*Prime";
+            return "Prime";
         case 2:
             return "Hotstar";
         case 3:
