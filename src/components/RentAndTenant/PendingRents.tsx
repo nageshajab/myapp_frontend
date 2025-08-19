@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { GetPendingRents } from "../../api/RentService";
 import { toast } from "react-toastify";
+import type { rentItem } from "./types";
 
 const months = [
   { value: 1, label: "January" },
@@ -22,7 +23,7 @@ const years = Array.from({ length: 10 }, (_, i) => currentYear - 5 + i);
 
 const PendingRents = () => {
   const [loading, setLoading] = useState(false);
-  const [rents, setRents] = useState<string[]>([]);
+  const [rents, setRents] = useState<rentItem[]>([]);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(currentYear);
 
@@ -99,15 +100,13 @@ const PendingRents = () => {
               <p>No data available</p>
             </div>
           )}
-          {rents?.map((item, index) => (
+          {rents?.map((item) => (
             <li
-              key={index + 1}
+              key={item.id}
               className="list-group-item d-flex justify-content-between align-items-center"
             >
               <div>
-                <div className="mb-1">
-                  {index + 1}. {item}
-                </div>
+                <div className="mb-1">{item.tenantName}</div>
               </div>
             </li>
           ))}

@@ -1,16 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DeleteRent, GetRents } from "../../api/RentService";
-
-interface rentItem {
-  id: string;
-  date: string;
-  paidAmount: number;
-  remainingAmount: number;
-  mseb: number;
-  userid: string;
-  tenantName: string;
-}
+import type { rentItem } from "./types";
 
 const RentList = () => {
   const [loading, setLoading] = useState(false);
