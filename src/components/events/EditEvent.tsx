@@ -10,7 +10,7 @@ const CreateDateForm = () => {
     title: "",
     description: "",
     date: "",
-    MarkFinished: false,
+    markFinished: false,
     userid: localStorage.getItem("token") || "",
   });
   const [loading, setLoading] = useState(false);
@@ -20,6 +20,7 @@ const CreateDateForm = () => {
       setLoading(true);
       EventGet(id)
         .then((res) => {
+          console.log(JSON.stringify(res.data));
           const date = new Date(res.data.date);
           const formattedDate = date.toISOString().split("T")[0];
           res.data.date = formattedDate;
@@ -76,7 +77,7 @@ const CreateDateForm = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="text-center">Create Date</h2>
+      <h2 className="text-center">Create/Edit Event</h2>
       <form onSubmit={handleSubmit} className="card p-4 shadow-sm">
         <div className="mb-3">
           <label className="form-label">Title</label>
@@ -129,7 +130,7 @@ const CreateDateForm = () => {
           <input
             type="checkbox"
             name="markFinished"
-            checked={form.MarkFinished}
+            checked={form.markFinished}
             onChange={handleChange}
             className="form-check-input"
           />

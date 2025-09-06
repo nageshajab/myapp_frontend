@@ -8,6 +8,7 @@ interface EventItem {
   description: string;
   date: string;
   duration: string;
+  markFinished: boolean;
 }
 
 const Home = () => {
@@ -116,7 +117,14 @@ const Home = () => {
                 <div key={item.id} className="col-md-3 mb-4">
                   <div className="card h-100">
                     <div
-                      style={{ fontSize: "1rem" }}
+                      style={{
+                        fontSize: "1rem",
+                        backgroundColor: item.markFinished
+                          ? "#d4edda"
+                          : "#f8d7da", // ✅ greenish for finished, reddish for pending
+                        padding: "0.75rem",
+                        borderRadius: "6px",
+                      }}
                       className="d-flex justify-content-between align-items-center"
                     >
                       <h5 className="mb-0" style={{ fontSize: "1rem" }}>
@@ -128,7 +136,7 @@ const Home = () => {
                             year: "numeric",
                           })
                           .toUpperCase()}
-                        <div> {item.duration}</div>
+                        <div>{item.duration}</div>
                       </h5>
                       <div>
                         <Link
