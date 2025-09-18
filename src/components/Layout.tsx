@@ -67,6 +67,11 @@ const Layout = () => {
                   Dates
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/mytravel">
+                  My Travel
+                </Link>
+              </li>
               <NavDropdown title="Finance" id="finance-dropdown">
                 {token === "1fcca2c1-ffda-4cc5-b5bd-8959dec8d5af" && (
                   <li className="nav-item">
