@@ -11,6 +11,7 @@ const containerStyle = { width: "100%", height: "600px" };
 const center = { lat: 21.7679, lng: 78.8718 };
 
 const pune = { lat: 18.5204, lng: 73.8567 };
+const hyderabad = { lat: 17.385, lng: 78.4867 }; // Hyderabad, Telangana
 const dubai = { lat: 25.276987, lng: 55.296249 };
 const abuDhabi = { lat: 24.4539, lng: 54.3773 };
 const chennai = { lat: 13.0827, lng: 80.2707 };
@@ -51,6 +52,8 @@ const routes = [
   { from: pune, to: goa, label: "goa - sept 2016" },
 
   { from: pune, to: nainital, label: "Nainital - dec 2018" },
+
+  { from: pune, to: hyderabad, label: "hyderabad - august 2018" },
 
   { from: pune, to: dubai, label: "Dubai - may 2023" },
   { from: dubai, to: abuDhabi, label: "abuDhabi - may 2023" },
