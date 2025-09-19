@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Home = lazy(() => import("./components/Home"));
 const Login = lazy(() => import("./components/admin/Login"));
 const Register = lazy(() => import("./components/admin/Register"));
-const MyTravel = lazy(() => import("./components/travelhistory/MyTravel"));
+
 const ChangePassword = lazy(() => import("./components/admin/ChangePassword"));
 
 const DocumentList = lazy(() => import("./components/Documents/DocumentList"));
@@ -96,8 +96,6 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
           <Route path="changepassword" element={<ChangePassword />} />
-
-          <Route path="mytravel" element={<MyTravel />} />
 
           <Route path="documentlist" element={<DocumentList />} />
           <Route path="documentlist/create" element={<DocumentForm />} />
