@@ -32,6 +32,33 @@ const surat = { lat: 21.1702, lng: 72.8311 }; // Surat, Gujarat
 const goa = { lat: 15.2993, lng: 74.124 }; // Goa, India
 const alibag = { lat: 18.6414, lng: 72.8722 }; // Alibag, Maharashtra
 const aurangabad = { lat: 19.8762, lng: 75.3433 }; // Aurangabad, Maharashtra
+const bharuch = { lat: 21.7057, lng: 72.9982 }; // Bharuch, Gujarat
+
+const visitedPlaces = [
+  { position: pune, label: "Pune - home base" },
+  { position: delhi, label: "Delhi - Dec 2007" },
+  { position: shimla, label: "Shimla - Dec 2007" },
+  { position: kullu, label: "Kullu - Dec 2007" },
+  { position: manali, label: "Manali - Dec 2007" },
+  { position: chennai, label: "Chennai - Sept 2008" },
+  { position: surat, label: "Surat - Nov 2011" },
+  { position: jaipur, label: "Jaipur - Nov 2011" },
+  { position: jaisalmer, label: "Jaisalmer - Nov 2011" },
+  { position: udaipur, label: "Udaipur - Nov 2011" },
+  { position: bharuch, label: "Bharuch - Sept 2025" },
+  { position: aurangabad, label: "Aurangabad - Dec 2013" },
+  { position: agra, label: "Agra - Dec 2015" },
+  { position: goa, label: "Goa - Sept 2016" },
+  { position: nainital, label: "Nainital - Dec 2018" },
+  { position: hyderabad, label: "Hyderabad - Aug 2018" },
+  { position: dubai, label: "Dubai - May 2023" },
+  { position: abuDhabi, label: "Abu Dhabi - May 2023" },
+  { position: alibag, label: "Alibag - May 2024" },
+  { position: bangkok, label: "Bangkok - April 2025" },
+  { position: pattaya, label: "Pattaya - April 2025" },
+  { position: phuket, label: "Phuket - April 2025" },
+  { position: kanyakumari, label: "Kanyakumari - Oct 2025" },
+];
 const routes = [
   { from: pune, to: delhi, label: "delhi - dec 2007" },
   { from: delhi, to: shimla, label: "Shimla - dec 2007" },
@@ -69,36 +96,39 @@ const routes = [
 
 export default function MapWithLabels() {
   const [activeLabel, setActiveLabel] = useState<number | null>(null);
+  const [mapType, setMapType] = useState("roadmap");
 
   return (
     <LoadScript googleMapsApiKey="AIzaSyBbOFjfwEsYi3fa-Hz4X75DeLTSCBQSn64">
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={5}>
-        {routes.map((route, index) => (
+      <select onChange={(e) => setMapType(e.target.value)}>
+        <option value="roadmap">Roadmap</option>
+        <option value="satellite">Satellite</option>
+        <option value="hybrid">Hybrid</option>
+        <option value="terrain">Terrain</option>
+      </select>
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={5}
+        options={{ mapTypeId: mapType }}
+      >
+        {visitedPlaces.map((place, index) => (
           <React.Fragment key={index}>
-            <Polyline
-              path={[route.from, route.to]}
-              options={{
-                strokeColor: "#FF0000",
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                geodesic: true,
-              }}
-            />
             <Marker
-              position={route.to}
+              position={place.position}
               onClick={() => setActiveLabel(index)}
               label={{
-                text: route.label.split(" - ")[0], // Show city name as label
+                text: place.label.split(" - ")[0],
                 fontSize: "12px",
                 color: "#000",
               }}
             />
             {activeLabel === index && (
               <InfoWindow
-                position={route.to}
+                position={place.position}
                 onCloseClick={() => setActiveLabel(null)}
               >
-                <div>{route.label}</div>
+                <div>{place.label}</div>
               </InfoWindow>
             )}
           </React.Fragment>
