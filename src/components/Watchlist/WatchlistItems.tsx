@@ -15,13 +15,13 @@ interface MovieItem {
   genre: number;
   ott: number;
   date: string;
-  userid: string;
+  userId: string;
 }
 
 const WatchlistItems = () => {
   const [loading, setLoading] = useState(false);
   const [movieentries, setMovieEntries] = useState<MovieItem[]>([]);
-  const [searchtxt, setSearchtxt] = useState("");
+  const [searchText, setSearchText] = useState("");
   const [pageNumber, setPgNo] = useState(1);
   const [selectedStatus, setSelectedStatus] = useState("");
   const [selectedType, setSelectedType] = useState("");
@@ -39,8 +39,8 @@ const WatchlistItems = () => {
     setLoading(true);
     const res = await GetWatchlistItems({
       pageNumber,
-      searchtxt,
-      userid: localStorage.getItem("token"),
+      searchText,
+      userId: localStorage.getItem("token"),
       status: selectedStatus,
       type: selectedType,
       language: selectedLanguage,
@@ -56,7 +56,7 @@ const WatchlistItems = () => {
     fetchMovieEntries();
   }, [
     pageNumber,
-    searchtxt,
+    searchText,
     selectedStatus,
     selectedType,
     selectedLanguage,
@@ -89,8 +89,8 @@ const WatchlistItems = () => {
             type="text"
             className="form-control"
             placeholder="Search by movie title"
-            value={searchtxt}
-            onChange={(e) => setSearchtxt(e.target.value)}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
         <div className="col-md-2">

@@ -20,7 +20,7 @@ const Home = () => {
   }
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState<EventItem[]>([]);
-  const [searchtxt, setSearchtxt] = useState("");
+  const [searchText, setSearchText] = useState("");
   const [pageNumber, setPgNo] = useState(1);
   const [showAll, setShowAll] = useState(false);
   const [pagination, setPagination] = useState({
@@ -34,8 +34,8 @@ const Home = () => {
     setLoading(true);
     const res = await GetEvents({
       pageNumber,
-      searchtxt,
-      userid: localStorage.getItem("token"),
+      searchText,
+      userId: localStorage.getItem("token"),
       showAll,
     });
     setEvents(res.data.events); // updated to res.data.dates
@@ -45,7 +45,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchEvents();
-  }, [pageNumber, searchtxt, showAll]);
+  }, [pageNumber, searchText, showAll]);
 
   const handlePageChange = (newPageNumber: number) => {
     setPgNo(newPageNumber);
@@ -72,8 +72,8 @@ const Home = () => {
               type="text"
               className="form-control"
               placeholder="Search by title"
-              value={searchtxt}
-              onChange={(e) => setSearchtxt(e.target.value)}
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
             />
             <div className="input-group-append ms-2">
               <div className="form-check">
