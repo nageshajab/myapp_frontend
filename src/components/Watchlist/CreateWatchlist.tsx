@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import {
   createWatchlistItem,
   updateWatchlistItem,
-  getwachlistitem,
+  GetWatchlistitem,
 } from "../../api/WatchlistService";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -25,7 +25,7 @@ const CreateWatchlist = () => {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      getwachlistitem(id)
+      GetWatchlistitem(id)
         .then((res) => {
           const formattedDate = res.data.date.split("T")[0];
           setForm({ ...res.data, date: formattedDate });

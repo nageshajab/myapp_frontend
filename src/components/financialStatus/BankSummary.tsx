@@ -54,9 +54,15 @@ const BankSummary: React.FC<BankSummaryProps> = ({
     settotalFd(
       Number(form.ICICIFdAmount) +
         Number(form.HdfcBankFdAmount) +
-        Number(form.KotakBankFdAmount)
+        Number(form.KotakBankFdAmount) +
+        Number(form.SriramFD)
     );
-  }, [form.ICICIFdAmount, form.HdfcBankFdAmount, form.KotakBankFdAmount]);
+  }, [
+    form.ICICIFdAmount,
+    form.HdfcBankFdAmount,
+    form.KotakBankFdAmount,
+    form.SriramFD,
+  ]);
 
   useEffect(() => {
     setTotalBankBalance(Number(totalsavings) + Number(totalFd));
@@ -162,6 +168,22 @@ const BankSummary: React.FC<BankSummaryProps> = ({
           <td>{Number(averageInBank) - Number(kotakTotal)}</td>
         </tr>
         <tr>
+          <td>Sriram Finance</td>
+          <td> </td>
+          <td>
+            {" "}
+            <input
+              type="text"
+              name="SriramFD"
+              value={form.SriramFD || 0}
+              size={(form.SriramFD || 0).toString().length || 1}
+              onChange={handleChange}
+            />
+          </td>
+          <td>{form.SriramFD}</td>
+          <td>{Number(averageInBank) - Number(form.SriramFD)}</td>
+        </tr>
+        <tr>
           <td>Total</td>
           <td>{totalsavings}</td>
           <td>{totalFd}</td>
@@ -169,12 +191,12 @@ const BankSummary: React.FC<BankSummaryProps> = ({
           <td>{}</td>
         </tr>
         <tr>
-          <td colSpan={5}>
-            Average in Bank&nbsp; {Math.round(Number(totalBankBalance) / 3)}
-          </td>
+          <td>Average in Bank</td>
+          <td colSpan={4}>{Math.round(Number(totalBankBalance) / 3)}</td>
         </tr>
         <tr>
-          <td colSpan={5}>Need FD&nbsp; {692112 - Number(totalFd)}</td>
+          <td>Need FD</td>
+          <td colSpan={4}> {692112 - Number(totalFd)}</td>
         </tr>
       </tbody>
     </table>

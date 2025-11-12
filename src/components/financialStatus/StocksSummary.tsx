@@ -64,7 +64,6 @@ const StocksSummary: React.FC<StocksMfSummaryProps> = ({
             >
               Mutual Fund
             </td>
-
             <td>
               {" "}
               <input
@@ -87,6 +86,13 @@ const StocksSummary: React.FC<StocksMfSummaryProps> = ({
                 value={form.mutualFundsCurrentValue || 0}
                 onChange={handleChange}
               />
+            </td>
+          </tr>
+          <tr>
+            <td colSpan={3}>
+              Find mutual funds investments in icicidirect app and Grow app.
+              Only 1 Mutual fund is invested through Grow App. 1 Mutual fund is
+              invested through imobile app.
             </td>
           </tr>
         </tbody>

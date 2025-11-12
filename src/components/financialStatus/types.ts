@@ -8,6 +8,7 @@ export interface Item {
   HdfcBankFdAmount: number;
   KotakBankSavingsAccountBalance: number;
   KotakBankFdAmount: number;
+  SriramFD:number;
   stocksInvestamount: number;
   stocksCurrentValue: number;
   mutualFundsInvestAmount: number;

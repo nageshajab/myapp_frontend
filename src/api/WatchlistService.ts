@@ -11,6 +11,6 @@ const api = axios.create({
 });
 export const createWatchlistItem = (data: any) => api.post(`/createWatchlistItem`, data);
 export const GetWatchlistItems = (data: any) => api.post(`/GetWatchlistItems`, data);
-export const getwachlistitem = (id: string) => api.get(`/getwachlistitem?id=${id}`);
+export const GetWatchlistitem = (id: string) => api.get(`/GetWatchlistitem?id=${id}`);
 export const updateWatchlistItem = ( data: any) => api.post(`/updateWatchlistItem`, data);
 export const DeleteWatchlistitem = (id: string) => api.post(`/DeleteWatchlistitem?id=${id}`);

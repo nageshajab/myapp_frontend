@@ -9,6 +9,7 @@ import { getStatus, getType, getLanguage, getGenre, getOtt } from "./common";
 interface MovieItem {
   id: string;
   title: string;
+  description: string;
   status: number;
   type: number;
   language: number;

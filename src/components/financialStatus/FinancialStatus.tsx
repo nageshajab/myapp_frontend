@@ -31,6 +31,7 @@ const FinancialStatus = () => {
 
     KotakBankSavingsAccountBalance: 0,
     KotakBankFdAmount: 0,
+    SriramFD: 0,
 
     stocksInvestamount: 0,
     stocksCurrentValue: 0,
@@ -84,6 +85,7 @@ const FinancialStatus = () => {
       HdfcBankFdAmount: res.data.hdfcBankFdAmount,
       KotakBankSavingsAccountBalance: res.data.kotakBankSavingsAccountBalance,
       KotakBankFdAmount: res.data.kotakBankFdAmount,
+      SriramFD: res.data.sriramFD,
       stocksInvestamount: res.data.stocksInvestamount,
       stocksCurrentValue: res.data.stocksCurrentValue,
       mutualFundsInvestAmount: res.data.mutualFundsInvestAmount,
