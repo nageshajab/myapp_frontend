@@ -91,18 +91,16 @@ const DateList = () => {
               className="list-group-item d-flex justify-content-between align-items-center"
             >
               <div>
-                <h5 className="mb-1">{item.title}</h5>
-                <p className="mb-1">{item.description}</p>
-                <p className="mb-1">
-                  <strong>Date:</strong>{" "}
+                <span className="text-primary">{item.title}</span>,
+                <span className="text-success">{item.description}</span>,
+                <span className="text-warning">
+                  Date:{" "}
                   {new Date(item.date)
                     .toLocaleDateString("en-GB")
                     .split("/")
                     .join("-")}
-                </p>
-                <p className="mb-1">
-                  <strong>Duration:</strong> {item.duration}
-                </p>
+                </span>
+                <span className="text-info"> Duration: {item.duration}</span>
                 {item.isRecurring && (
                   <span className="badge bg-info">
                     Recurring: {item.recurringEvent?.frequency}
